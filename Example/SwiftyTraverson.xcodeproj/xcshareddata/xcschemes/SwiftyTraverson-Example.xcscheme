@@ -52,6 +52,16 @@
                ReferencedContainer = "container:SwiftyTraverson.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "03C576001C5F6EA30062E2D6"
+               BuildableName = "SwiftyTraverson_ExampleTests.xctest"
+               BlueprintName = "SwiftyTraverson_ExampleTests"
+               ReferencedContainer = "container:SwiftyTraverson.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "name": "Luke Skywalker",
+  "_links": {
+    "self": {
+      "href": "http://old-republic.com/jedi/1"
+    },
+    "lightSaber": {
+      "href": "http://old-republic.com/jedi/1/saber"
+    }
+  }
+}

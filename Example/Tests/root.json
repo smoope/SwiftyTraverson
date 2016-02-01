@@ -1,0 +1,11 @@
+{
+  "_links": {
+    "self": {
+      "href": "http://old-republic.com"
+    },
+    "jedi": {
+      "href": "http://old-republic.com/jedi{?page,sort}",
+      "templated": true
+    }
+  }
+}

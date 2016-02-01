@@ -1,13 +1,18 @@
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
+pod 'Alamofire', '~> 3.0'
+pod 'URITemplate'
+pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
+
 target 'SwiftyTraverson_Example', :exclusive => true do
-  pod 'SwiftyTraverson', :path => '../'
+  pod 'SwiftyTraverson', :path => "../"
 end
 
 target 'SwiftyTraverson_Tests', :exclusive => true do
-  pod 'SwiftyTraverson', :path => '../'
-
-  pod 'Quick', '~> 0.8.0'
-  pod 'Nimble', '3.0.0'
+  pod 'SwiftyTraverson', :path => "../"
+  
+  pod 'OHHTTPStubs'
+  pod 'OHHTTPStubs/Swift'
+  pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
 end

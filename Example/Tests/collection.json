@@ -1,0 +1,42 @@
+{
+  "_links": {
+    "self": {
+      "href": "http://old-republic.com/jedi{?page}",
+      "templated": true
+    },
+    "next": {
+      "href": "http://old-republic.com/jedi?page=1"
+    }
+  },
+  "_embedded": {
+    "jedi": [{
+      "id": 1,
+      "name": "Luke Skywalker",
+      "_links": {
+        "self": {
+          "href": "http://old-republic.com/jedi/1"
+        },
+        "lightSaber": {
+          "href": "http://old-republic.com/jedi/1/saber"
+        }
+      }
+    }, {
+      "id": 2,
+      "name": "Obi-Wan Kenob",
+      "_links": {
+        "self": {
+          "href": "http://old-republic.com/jedi/2"
+        },
+        "lightSaber": {
+          "href": "http://old-republic.com/jedi/2/saber"
+        }
+      }
+    }]
+  },
+  "page": {
+    "size": 2,
+    "totalElements": 2,
+    "totalPages": 1,
+    "number": 0
+  }
+}
