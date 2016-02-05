@@ -14,23 +14,13 @@
 * limitations under the License.
 */
 
-import XCTest
-import OHHTTPStubs
-import SwiftyTraverson
+import Foundation
+import SwiftyJSON
 
-let contentTypeHal = "application/hal+json"
-
-let host: String = "old-republic.com"
-
-class BaseTests: XCTestCase {
+/**
+  Protocol for supporting different server's media types
+ */
+public protocol TraversonLinkResolver {
   
-  let timeout: NSTimeInterval = 30.0
-  
-  let fixtures: Fixtures = Fixtures()
-  
-  override func tearDown() {
-    OHHTTPStubs.removeAllStubs()
-    
-    super.tearDown()
-  }
+  func findNext(rel: String, data: JSON) -> String
 }

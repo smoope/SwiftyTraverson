@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03C575EF1C5F62790062E2D6 /* collection.json in Resources */ = {isa = PBXBuildFile; fileRef = 03C575DB1C5F5B7D0062E2D6 /* collection.json */; };
-		03C575F01C5F62790062E2D6 /* item.json in Resources */ = {isa = PBXBuildFile; fileRef = 03C575DC1C5F5B7D0062E2D6 /* item.json */; };
-		03C575F11C5F62790062E2D6 /* root.json in Resources */ = {isa = PBXBuildFile; fileRef = 03C575DD1C5F5B7D0062E2D6 /* root.json */; };
+		03C575EF1C5F62790062E2D6 /* collection.hal.json in Resources */ = {isa = PBXBuildFile; fileRef = 03C575DB1C5F5B7D0062E2D6 /* collection.hal.json */; };
+		03C575F01C5F62790062E2D6 /* item.hal.json in Resources */ = {isa = PBXBuildFile; fileRef = 03C575DC1C5F5B7D0062E2D6 /* item.hal.json */; };
+		03C575F11C5F62790062E2D6 /* root.hal.json in Resources */ = {isa = PBXBuildFile; fileRef = 03C575DD1C5F5B7D0062E2D6 /* root.hal.json */; };
 		03C575F21C5F63B20062E2D6 /* BaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C575E11C5F5BAA0062E2D6 /* BaseTests.swift */; };
 		03C575F31C5F63B20062E2D6 /* BaseTraversingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C575E21C5F5BAA0062E2D6 /* BaseTraversingTests.swift */; };
 		03C575F41C5F63B20062E2D6 /* ConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C575E31C5F5BAA0062E2D6 /* ConfigurationTests.swift */; };
@@ -17,6 +17,7 @@
 		03C575F61C5F63B20062E2D6 /* TraversingGetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C575E51C5F5BAA0062E2D6 /* TraversingGetTests.swift */; };
 		03C575F71C5F63B20062E2D6 /* TraversingPostTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C575E61C5F5BAA0062E2D6 /* TraversingPostTests.swift */; };
 		03C575F81C5F63B20062E2D6 /* TraversingPutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C575E71C5F5BAA0062E2D6 /* TraversingPutTests.swift */; };
+		03DC392C1C64F04C00C3B9A6 /* Fixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DC392A1C64EE8700C3B9A6 /* Fixtures.swift */; };
 		1AA4440A3F4A2961CB478EEA /* Pods_SwiftyTraverson_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA8385FC08014AE6C72B23F /* Pods_SwiftyTraverson_Tests.framework */; };
 		5F7A3A4F2DDE8B3B63747297 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F82FB7B1F3343F83A421790D /* Pods.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
@@ -38,9 +39,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		03C575DB1C5F5B7D0062E2D6 /* collection.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = collection.json; sourceTree = "<group>"; };
-		03C575DC1C5F5B7D0062E2D6 /* item.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = item.json; sourceTree = "<group>"; };
-		03C575DD1C5F5B7D0062E2D6 /* root.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = root.json; sourceTree = "<group>"; };
+		03C575DB1C5F5B7D0062E2D6 /* collection.hal.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = collection.hal.json; sourceTree = "<group>"; };
+		03C575DC1C5F5B7D0062E2D6 /* item.hal.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = item.hal.json; sourceTree = "<group>"; };
+		03C575DD1C5F5B7D0062E2D6 /* root.hal.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = root.hal.json; sourceTree = "<group>"; };
 		03C575E11C5F5BAA0062E2D6 /* BaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTests.swift; sourceTree = "<group>"; };
 		03C575E21C5F5BAA0062E2D6 /* BaseTraversingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTraversingTests.swift; sourceTree = "<group>"; };
 		03C575E31C5F5BAA0062E2D6 /* ConfigurationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationTests.swift; sourceTree = "<group>"; };
@@ -50,6 +51,7 @@
 		03C575E71C5F5BAA0062E2D6 /* TraversingPutTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraversingPutTests.swift; sourceTree = "<group>"; };
 		03C576031C5F6EA30062E2D6 /* SwiftyTraverson_ExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyTraverson_ExampleTests.swift; sourceTree = "<group>"; };
 		03C576051C5F6EA30062E2D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03DC392A1C64EE8700C3B9A6 /* Fixtures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fixtures.swift; sourceTree = "<group>"; };
 		152973B44B0E8EAFAC51503C /* Pods-SwiftyTraverson_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftyTraverson_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftyTraverson_Tests/Pods-SwiftyTraverson_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		22A857C5FB312582B935AC97 /* Pods-SwiftyTraverson_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftyTraverson_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftyTraverson_Tests/Pods-SwiftyTraverson_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		3BAEFAB1723D0BC3EC44A627 /* Pods-SwiftyTraverson_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftyTraverson_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftyTraverson_Example/Pods-SwiftyTraverson_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -95,9 +97,9 @@
 		03C575DA1C5F5B6B0062E2D6 /* Responses */ = {
 			isa = PBXGroup;
 			children = (
-				03C575DB1C5F5B7D0062E2D6 /* collection.json */,
-				03C575DC1C5F5B7D0062E2D6 /* item.json */,
-				03C575DD1C5F5B7D0062E2D6 /* root.json */,
+				03C575DB1C5F5B7D0062E2D6 /* collection.hal.json */,
+				03C575DC1C5F5B7D0062E2D6 /* item.hal.json */,
+				03C575DD1C5F5B7D0062E2D6 /* root.hal.json */,
 			);
 			name = Responses;
 			sourceTree = "<group>";
@@ -109,6 +111,24 @@
 				03C576051C5F6EA30062E2D6 /* Info.plist */,
 			);
 			path = SwiftyTraverson_ExampleTests;
+			sourceTree = "<group>";
+		};
+		03DC392D1C64F09100C3B9A6 /* json */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = json;
+			sourceTree = "<group>";
+		};
+		03DC392E1C64F09800C3B9A6 /* jsonHal */ = {
+			isa = PBXGroup;
+			children = (
+				03C575E41C5F5BAA0062E2D6 /* TraversingDeleteTests.swift */,
+				03C575E51C5F5BAA0062E2D6 /* TraversingGetTests.swift */,
+				03C575E61C5F5BAA0062E2D6 /* TraversingPostTests.swift */,
+				03C575E71C5F5BAA0062E2D6 /* TraversingPutTests.swift */,
+			);
+			name = jsonHal;
 			sourceTree = "<group>";
 		};
 		2227795611890543CCA336AB /* Pods */ = {
@@ -179,15 +199,14 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				03DC392E1C64F09800C3B9A6 /* jsonHal */,
+				03DC392D1C64F09100C3B9A6 /* json */,
 				03C575E11C5F5BAA0062E2D6 /* BaseTests.swift */,
 				03C575E21C5F5BAA0062E2D6 /* BaseTraversingTests.swift */,
 				03C575E31C5F5BAA0062E2D6 /* ConfigurationTests.swift */,
-				03C575E41C5F5BAA0062E2D6 /* TraversingDeleteTests.swift */,
-				03C575E51C5F5BAA0062E2D6 /* TraversingGetTests.swift */,
-				03C575E61C5F5BAA0062E2D6 /* TraversingPostTests.swift */,
-				03C575E71C5F5BAA0062E2D6 /* TraversingPutTests.swift */,
 				03C575DA1C5F5B6B0062E2D6 /* Responses */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
+				03DC392A1C64EE8700C3B9A6 /* Fixtures.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -306,9 +325,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03C575F11C5F62790062E2D6 /* root.json in Resources */,
-				03C575F01C5F62790062E2D6 /* item.json in Resources */,
-				03C575EF1C5F62790062E2D6 /* collection.json in Resources */,
+				03C575F11C5F62790062E2D6 /* root.hal.json in Resources */,
+				03C575F01C5F62790062E2D6 /* item.hal.json in Resources */,
+				03C575EF1C5F62790062E2D6 /* collection.hal.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +443,7 @@
 				03C575F21C5F63B20062E2D6 /* BaseTests.swift in Sources */,
 				03C575F31C5F63B20062E2D6 /* BaseTraversingTests.swift in Sources */,
 				03C575F41C5F63B20062E2D6 /* ConfigurationTests.swift in Sources */,
+				03DC392C1C64F04C00C3B9A6 /* Fixtures.swift in Sources */,
 				03C575F51C5F63B20062E2D6 /* TraversingDeleteTests.swift in Sources */,
 				03C575F61C5F63B20062E2D6 /* TraversingGetTests.swift in Sources */,
 				03C575F71C5F63B20062E2D6 /* TraversingPostTests.swift in Sources */,

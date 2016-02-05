@@ -200,6 +200,8 @@ public class Traverson {
     
     private var traverse:Bool = true
     
+    private var linkResolver: TraversonLinkResolver = TraversonJsonLinkResolver()
+    
     private typealias ResolveUrlHandler = (url: String?, error: ErrorType?) -> Void
     
     private init(baseUri: String, client: Alamofire.Manager, authentication: String?) {
@@ -350,6 +352,18 @@ public class Traverson {
       return self
     }
     
+    public func json() -> Traversing {
+      self.linkResolver = TraversonJsonLinkResolver()
+      
+      return self
+    }
+    
+    public func jsonHal() -> Traversing {
+      self.linkResolver = TraversonJsonHalLinkResolver()
+      
+      return self
+    }
+
     public func withHeaders(headers: Dictionary<String, String>) -> Traversing {
       for (k, v) in headers {
         self.headers[k] = v
