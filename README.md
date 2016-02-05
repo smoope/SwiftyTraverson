@@ -30,7 +30,7 @@ let traverson = Traverson()
 
 ### Configuration properties
 
-Use `Traverson.Builder` object in order to configure the `Traverson`.
+Use `Traverson.Builder` in order to configure the `Traverson`:
 
 ```swift
 let traverson = Traverson.Builder()
@@ -54,11 +54,11 @@ Retrieve data:
 
 ```swift
 traverson
-.from("http://www.some.com")
-.follow("users", "next")
-.get { result, error in
-// Do something...
-}
+  .from("http://www.some.com")
+  .follow("users", "next")
+  .get { result, error in
+    // Do something...
+  }
 ```
 
 Create data:
@@ -67,11 +67,11 @@ Create data:
 let objectToAdd: Dictionary<String, AnyObject> = ["name": "John Doe"]
 
 traverson
-.from("http://www.some.com")
-.follow("users")
-.post(objectToAdd) { result, error in
-// Do something...
-}
+  .from("http://www.some.com")
+  .follow("users")
+  .post(objectToAdd) { result, error in
+    // Do something...
+  }
 ```
 
 Update data:
@@ -80,22 +80,22 @@ Update data:
 let objectToUpdate: Dictionary<String, AnyObject> = ["id": 1, "name": "John Doe"]
 
 traverson
-.from("http://www.some.com")
-.follow("users", "first")
-.put(objectToUpdate) { result, error in
-// Do something...
-}
+  .from("http://www.some.com")
+  .follow("users", "first")
+  .put(objectToUpdate) { result, error in
+    // Do something...
+  }
 ```
 
 Delete data:
 
 ```swift
 traverson
-.from("http://www.some.com")
-.follow("users")
-.delete { result, error in
-// Do something...
-}
+  .from("http://www.some.com")
+  .follow("users")
+  .delete { result, error in
+    // Do something...
+  }
 ```
 
 As you might noticed, `post` and `put` methods expect an additional parameter represents the object should be created or updated, while 

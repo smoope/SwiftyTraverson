@@ -249,7 +249,7 @@ class ConfigurationTests: BaseTests {
     }
   }
   
-  func withTemplateParameter() {
+  func testWithTemplateParameter() {
     stub(isHost(host) && isPath("/jedi") && containsQueryParams(["page": "1"])) { request in
       return self.fixtures.root()
     }
@@ -278,7 +278,7 @@ class ConfigurationTests: BaseTests {
     }
   }
   
-  func withTemplateParameters() {
+  func testWithTemplateParameters() {
     let params = ["page": "1", "sort": "color,desc"]
     
     stub(isHost(host) && isPath("/jedi") && containsQueryParams(params)) { request in
@@ -304,6 +304,90 @@ class ConfigurationTests: BaseTests {
     if let test = test {
       XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
       XCTAssertEqual(test["_links"].dictionaryObject!.count, 2, "response should contain 2 links")
+    } else {
+      XCTAssertNotNil(test, "response should exists")
+    }
+  }
+  
+  func testMultipleCalls() {
+    var calls = 0
+    stub(isHost(host)) { _ in
+      calls += 1
+      
+      switch calls {
+      case 1:
+        return self.fixtures.root()
+      case 2:
+        return self.fixtures.collection()
+      case 3:
+        return self.fixtures.item()
+      default:
+        return self.fixtures.responseWithCode(404)
+      }
+    }
+    
+    let traverson = Traverson()
+    var expectation = self.expectationWithDescription("request should succeed")
+    
+    var test: JSON?
+    traverson
+      .from("http://\(host)")
+      .follow()
+      .get { result, _ in
+        test = result.data
+        
+        expectation.fulfill()
+    }
+    
+    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    
+    if let test = test {
+      XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
+      XCTAssertEqual(test["_links"].dictionaryObject!.count, 2, "response should contain 2 links")
+    } else {
+      XCTAssertNotNil(test, "response should exists")
+    }
+    
+    expectation = self.expectationWithDescription("request should succeed")
+    
+    traverson
+      .newRequest()
+      .follow()
+      .get { result, _ in
+        test = result.data
+        
+        expectation.fulfill()
+    }
+    
+    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    
+    if let test = test {
+      XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
+      XCTAssertEqual(test["_links"].dictionaryObject!.count, 2, "response should contain 2 links")
+      XCTAssertNotNil(test["page"].dictionaryObject, "response should contain pagination details")
+      XCTAssertEqual(test["_embedded"]["jedi"].arrayObject?.count, 2, "response should contain pagination details")
+    } else {
+      XCTAssertNotNil(test, "response should exists")
+    }
+    
+    expectation = self.expectationWithDescription("request should succeed")
+    
+    traverson
+      .newRequest()
+      .follow()
+      .get { result, _ in
+        test = result.data
+        
+        expectation.fulfill()
+    }
+    
+    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    
+    if let test = test {
+      XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
+      XCTAssertEqual(test["_links"].dictionaryObject!.count, 2, "response should contain 2 links")
+      XCTAssertNotNil(test["id"].int, "response should contain payload")
+      XCTAssertNotNil(test["name"].string, "response should contain payload")
     } else {
       XCTAssertNotNil(test, "response should exists")
     }

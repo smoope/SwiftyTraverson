@@ -30,6 +30,8 @@ public class Traverson {
   
   private var authentication: String?
   
+  private var current: Traversing?
+  
   /**
     Constructor with parameters
    
@@ -60,17 +62,27 @@ public class Traverson {
     }
   }
   
-  /*
+  /**
     Sets the base URL
   
-    - Parameter baseUri: URL to start wit
+    - Parameter baseUri: URL to start with
   
     - Returns: Traversing object
   */
   public func from(baseUri: String) -> Traversing {
     authenticate()
     
-    return Traversing(baseUri: baseUri, client: client, authentication: authentication)
+    current = Traversing(baseUri: baseUri, client: client, authentication: authentication)
+    return current!
+  }
+  
+  /**
+    Creates a new request based on exsiting one, allowing multiple usage of the same `Traverson` instance
+  
+    - Returns: Traversing object
+  */
+  public func newRequest() -> Traversing {
+    return current!
   }
   
   /**
