@@ -19,7 +19,7 @@ import OHHTTPStubs
 import SwiftyJSON
 import SwiftyTraverson
 
-class TraversingPutTests: BaseTraversingTests {
+class TraversingJsonHalPutTests: BaseTraversingTests {
   
   let objectToUpdate: Dictionary<String, AnyObject> = ["name": "Darth Vader"]
   

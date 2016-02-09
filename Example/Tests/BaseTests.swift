@@ -18,7 +18,9 @@ import XCTest
 import OHHTTPStubs
 import SwiftyTraverson
 
-let contentTypeHal = "application/hal+json"
+let contentTypeJsonHal = "application/hal+json"
+
+let contentTypeJson = "application/json"
 
 let host: String = "old-republic.com"
 

@@ -24,4 +24,6 @@ public enum TraversonException: ErrorType {
   case HttpException(code: Int, message: String)
   
   case RelationNotFound(relation: String)
+  
+  case EmptyResponse()
 }

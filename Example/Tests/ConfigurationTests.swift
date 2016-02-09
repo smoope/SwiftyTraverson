@@ -250,6 +250,9 @@ class ConfigurationTests: BaseTests {
   }
   
   func testWithTemplateParameter() {
+    stub(isHost(host)) { request in
+      return self.fixtures.root()
+    }
     stub(isHost(host) && isPath("/jedi") && containsQueryParams(["page": "1"])) { request in
       return self.fixtures.root()
     }
@@ -281,7 +284,10 @@ class ConfigurationTests: BaseTests {
   func testWithTemplateParameters() {
     let params = ["page": "1", "sort": "color,desc"]
     
-    stub(isHost(host) && isPath("/jedi") && containsQueryParams(params)) { request in
+    stub(isHost(host)) { request in
+      return self.fixtures.root()
+    }
+    stub(isHost(host) && isPath("/jedi") && containsQueryParams(["page": "1"]) && containsQueryParams(["sort": "color,desc"])) { request in
       return self.fixtures.root()
     }
     

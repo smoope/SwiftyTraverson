@@ -22,5 +22,5 @@ import SwiftyJSON
  */
 public protocol TraversonLinkResolver {
   
-  func findNext(rel: String, data: JSON) -> String
+  func findNext(rel: String, data: JSON) throws -> String
 }

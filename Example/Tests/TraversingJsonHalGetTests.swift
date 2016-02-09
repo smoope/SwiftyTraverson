@@ -19,7 +19,7 @@ import OHHTTPStubs
 import SwiftyJSON
 import SwiftyTraverson
 
-class TraversingGetTests: BaseTraversingTests {
+class TraversingJsonHalGetTests: BaseTraversingTests {
   
   func testFollowUrl() {
     stub(isHost(host)) { _ in

@@ -18,13 +18,14 @@ import Foundation
 import SwiftyJSON
 
 /**
- JSON media type rsponse link resolver
+  JSON media type rsponse link resolver
  */
 public class TraversonJsonLinkResolver: TraversonLinkResolver {
   
   public init() { }
   
-  public func findNext(rel: String, data: JSON) -> String {
-    return data[rel].string!
+  public func findNext(rel: String, data: JSON) throws -> String {
+    guard let next = data[rel].string else { throw TraversonException.RelationNotFound(relation: rel) }
+    return next
   }
 }

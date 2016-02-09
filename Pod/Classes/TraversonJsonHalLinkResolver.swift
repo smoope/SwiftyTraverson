@@ -18,13 +18,14 @@ import Foundation
 import SwiftyJSON
 
 /**
- HAL media type rsponse link resolver
+  HATEOAS media type response link resolver
  */
 public class TraversonJsonHalLinkResolver: TraversonLinkResolver {
   
   public init() { }
   
-  public func findNext(rel: String, data: JSON) -> String {
-    return data["_links"][rel].string!
+  public func findNext(rel: String, data: JSON) throws -> String {
+    guard let next = data["_links"][rel]["href"].string else { throw TraversonException.RelationNotFound(relation: rel) }
+    return next
   }
 }

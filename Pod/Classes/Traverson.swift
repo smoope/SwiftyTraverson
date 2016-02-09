@@ -212,7 +212,7 @@ public class Traverson {
     
     private var traverse:Bool = true
     
-    private var linkResolver: TraversonLinkResolver = TraversonJsonLinkResolver()
+    private var linkResolver: TraversonLinkResolver = TraversonJsonHalLinkResolver()
     
     private typealias ResolveUrlHandler = (url: String?, error: ErrorType?) -> Void
     
@@ -316,25 +316,14 @@ public class Traverson {
           } else {
             do {
               if let json = data.data {
-                if let link = json["_links"][next!]["href"].string {
-                  if let _ = json["_links"][next!]["templated"].bool {
-                    try self.getAndFindLinkWithRel(
-                      URITemplate(template: link).expand(self.templateParameters),
-                      rels: rels,
-                      success: success
-                    )
-                  } else {
-                    try self.getAndFindLinkWithRel(
-                      link,
-                      rels: rels,
-                      success: success
-                    )
-                  }
-                } else {
-                  throw TraversonException.RelationNotFound(relation: next!)
-                }
+                let link = try self.linkResolver.findNext(next!, data: json)
+                try self.getAndFindLinkWithRel(
+                  URITemplate(template: link).expand(self.templateParameters),
+                  rels: rels,
+                  success: success
+                )
               } else {
-                throw TraversonException.RelationNotFound(relation: next!)
+                throw TraversonException.EmptyResponse()
               }
             } catch let error {
               success(url: nil, error: error)

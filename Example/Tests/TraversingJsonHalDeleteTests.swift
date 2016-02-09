@@ -19,13 +19,11 @@ import OHHTTPStubs
 import SwiftyJSON
 import SwiftyTraverson
 
-class TraversingPostTests: BaseTraversingTests {
+class TraversingJsonHalDeleteTests: BaseTraversingTests {
   
-  let objectToAdd: Dictionary<String, AnyObject> = ["id": "3", "name": "Darth Vader"]
-  
-  func testFollowUrl() {
+  func testFollowRoot() {
     stub(isHost(host)) { _ in
-      return self.fixtures.item()
+      return self.fixtures.responseWithCode(204)
     }
     
     let expectation = self.expectationWithDescription("request should succeed")
@@ -33,8 +31,8 @@ class TraversingPostTests: BaseTraversingTests {
     var test: JSON?
     traverson
       .from("http://\(host)")
-      .followUri("http://\(host)/some")
-      .post(objectToAdd) { result, _ in
+      .follow()
+      .delete { result, _ in
         test = result.data
         
         expectation.fulfill()
@@ -42,14 +40,7 @@ class TraversingPostTests: BaseTraversingTests {
     
     self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
     
-    if let test = test {
-      XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
-      XCTAssertEqual(test["_links"].dictionaryObject!.count, 2, "response should contain 2 links")
-      XCTAssertNotNil(test["id"].int, "response should contain payload")
-      XCTAssertNotNil(test["name"].string, "response should contain payload")
-    } else {
-      XCTAssertNotNil(test, "response should exists")
-    }
+    XCTAssertNil(test, "response should not exists")
   }
   
   func testFollowRelation() {
@@ -61,7 +52,7 @@ class TraversingPostTests: BaseTraversingTests {
       case 1:
         return self.fixtures.root()
       case 2:
-        return self.fixtures.item()
+        return self.fixtures.responseWithCode(204)
       default:
         return self.fixtures.responseWithCode(404)
       }
@@ -73,21 +64,14 @@ class TraversingPostTests: BaseTraversingTests {
     traverson
       .from("http://\(host)")
       .follow("jedi")
-      .post(objectToAdd) { result, _ in
+      .delete { result, _ in
         test = result.data
-        
+      
         expectation.fulfill()
       }
     
     self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
     
-    if let test = test {
-      XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
-      XCTAssertEqual(test["_links"].dictionaryObject!.count, 2, "response should contain 2 links")
-      XCTAssertNotNil(test["id"].int, "response should contain payload")
-      XCTAssertNotNil(test["name"].string, "response should contain payload")
-    } else {
-      XCTAssertNotNil(test, "response should exists")
-    }
+    XCTAssertNil(test, "response should not exists")
   }
 }
