@@ -17,6 +17,11 @@ Pod::Spec.new do |s|
 #   * Write the description between the DESC delimiters below.
 #   * Finally, don't worry about the indent, CocoaPods strips it!  
   s.description      = <<-DESC
+Traverson allows you to follow the relation links within the HATEOAS-based API's response instead of harcoding every single url.
+In addition, the built-in features allow you:
+- manage header info sent to server
+- handle URI tempalte variables
+- use different types of authentication
                        DESC
 
   s.homepage         = "https://github.com/smoope/SwiftyTraverson"
