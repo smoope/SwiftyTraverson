@@ -47,10 +47,10 @@ List of available properties:
 |---|---|
 | `requestTimeout` | Sets request timeout interval (in seconds) per each request. [More details](https://developer.apple.com/library/prerelease/ios/documentation/Foundation/Reference/NSURLSessionConfiguration_class/index.html#//apple_ref/occ/instp/NSURLSessionConfiguration/timeoutIntervalForRequest). |
 | `responseTimeout` | Sets response timeout interval (in seconds) per each request. [More details](https://developer.apple.com/library/prerelease/ios/documentation/Foundation/Reference/NSURLSessionConfiguration_class/index.html#//apple_ref/occ/instp/NSURLSessionConfiguration/timeoutIntervalForResource). |
-| `disableCache` | Disables caching. [More details](#Caching). |
+| `disableCache` | Disables caching. [More details](#caching). |
 | `defaultHeader` | Sets single default header which will be sent to the server per each request. |
 | `defaultHeaders` | Sets a collection of default headers which will be sent to the server per each request. |
-| `authenticator` | Authenticates every request accordingly to server's security policy. [More details](#Authentication). |
+| `authenticator` | Authenticates every request accordingly to server's security policy. [More details](#authenticating-requests). |
 
 ### Making requests
 
