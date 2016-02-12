@@ -1,0 +1,4 @@
+{
+  "self": "http://old-republic.com",
+  "jedi": "http://old-republic.com/jedi{?page,sort}"
+}

@@ -1,0 +1,12 @@
+{
+  "next": "http://old-republic.com/jedi?page=1",
+  "jedi": [{
+    "id": 1,
+    "name": "Luke Skywalker",
+    "lightSaber": "http://old-republic.com/jedi/1/saber"
+  }, {
+    "id": 2,
+    "name": "Obi-Wan Kenob",
+    "lightSaber": "http://old-republic.com/jedi/2/saber"
+  }]
+}

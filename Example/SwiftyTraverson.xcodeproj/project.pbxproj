@@ -56,8 +56,6 @@
 		03C575E51C5F5BAA0062E2D6 /* TraversingJsonHalGetTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraversingJsonHalGetTests.swift; sourceTree = "<group>"; };
 		03C575E61C5F5BAA0062E2D6 /* TraversingJsonHalPostTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraversingJsonHalPostTests.swift; sourceTree = "<group>"; };
 		03C575E71C5F5BAA0062E2D6 /* TraversingJsonHalPutTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraversingJsonHalPutTests.swift; sourceTree = "<group>"; };
-		03C576031C5F6EA30062E2D6 /* SwiftyTraverson_ExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyTraverson_ExampleTests.swift; sourceTree = "<group>"; };
-		03C576051C5F6EA30062E2D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03D8F1F01C69D39F00EB3425 /* collection.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = collection.json; sourceTree = "<group>"; };
 		03D8F1F11C69D39F00EB3425 /* item.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = item.json; sourceTree = "<group>"; };
 		03D8F1F21C69D39F00EB3425 /* root.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = root.json; sourceTree = "<group>"; };
@@ -121,15 +119,6 @@
 			name = Responses;
 			sourceTree = "<group>";
 		};
-		03C576021C5F6EA30062E2D6 /* SwiftyTraverson_ExampleTests */ = {
-			isa = PBXGroup;
-			children = (
-				03C576031C5F6EA30062E2D6 /* SwiftyTraverson_ExampleTests.swift */,
-				03C576051C5F6EA30062E2D6 /* Info.plist */,
-			);
-			path = SwiftyTraverson_ExampleTests;
-			sourceTree = "<group>";
-		};
 		03DC392D1C64F09100C3B9A6 /* json */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,7 +168,6 @@
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for SwiftyTraverson */,
 				607FACE81AFB9204008FA782 /* Tests */,
-				03C576021C5F6EA30062E2D6 /* SwiftyTraverson_ExampleTests */,
 				607FACD11AFB9204008FA782 /* Products */,
 				2227795611890543CCA336AB /* Pods */,
 				5CF89257DAAA256E4F9D4F1F /* Frameworks */,
