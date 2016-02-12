@@ -1,6 +1,8 @@
 SwiftyTraverson - Swift implementation of a Hypermedia API/HATEOAS client
 ==========
 
+[![Build Status](https://travis-ci.org/smoope/SwiftyTraverson.svg?branch=master)](https://travis-ci.org/smoope/SwiftyTraverson)
+
 # Introduction
 
 This framework was inspired by [Traverson javascript library](https://github.com/basti1302/traverson). 
