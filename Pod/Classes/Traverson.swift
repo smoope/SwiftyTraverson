@@ -97,7 +97,7 @@ public class Traverson {
     
     private var configuration: NSURLSessionConfiguration
     
-    private var defaultHeaders: Dictionary<NSObject, AnyObject>
+    private var defaultHeaders: [NSObject: AnyObject]
     
     private var useCache: Bool
     
@@ -109,7 +109,7 @@ public class Traverson {
     
     public init() {
       self.configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-      self.defaultHeaders = self.configuration.HTTPAdditionalHeaders ?? Dictionary<NSObject, AnyObject>()
+      self.defaultHeaders = self.configuration.HTTPAdditionalHeaders ?? [:]
       self.useCache = true
       self.requestTimeout = self.configuration.timeoutIntervalForRequest
       self.responseTimeout = self.configuration.timeoutIntervalForResource
@@ -120,7 +120,7 @@ public class Traverson {
      
       - Parameters defaultHeaders: Collection of default headers to use
      */
-    public func defaultHeaders(defaultHeaders: Dictionary<String, String>) -> Builder {
+    public func defaultHeaders(defaultHeaders: [String: String]) -> Builder {
       self.defaultHeaders = defaultHeaders
       
       return self
@@ -202,11 +202,11 @@ public class Traverson {
     
     private var client: Alamofire.Manager
     
-    private var rels: Array<String>
+    private var rels: [String]
     
-    private var headers: Dictionary<String, String>
+    private var headers: [String: String]
     
-    private var templateParameters: Dictionary<String, String>
+    private var templateParameters: [String: String]
   
     private var follow201Location:Bool = false
     
@@ -228,7 +228,7 @@ public class Traverson {
     }
     
     //todo Implement object-to-json serialization instead of using Dictionary
-    private func prepareRequest(url: String, method: TraversonRequestMethod, object: Dictionary<String, AnyObject>? = nil) -> Request {
+    private func prepareRequest(url: String, method: TraversonRequestMethod, object: [String: AnyObject]? = nil) -> Request {
       switch method {
       case .GET:
         return client.request(.GET, url, headers: headers)
@@ -257,7 +257,7 @@ public class Traverson {
       }
     }
   
-    private func call(url: String? = nil, method: TraversonRequestMethod, object: Dictionary<String, AnyObject>? = nil, callback: TraversonResultHandler) {
+    private func call(url: String? = nil, method: TraversonRequestMethod, object: [String: AnyObject]? = nil, callback: TraversonResultHandler) {
       resolveUrl(url, success: { resolvedUrl, error in
         if let resolvedUrl = resolvedUrl {
           self.prepareRequest(
@@ -303,7 +303,7 @@ public class Traverson {
       }
     }
     
-    private func getAndFindLinkWithRel(url: String, var rels: IndexingGenerator<Array<String>>, success: ResolveUrlHandler) throws {
+    private func getAndFindLinkWithRel(url: String, var rels: IndexingGenerator<[String]>, success: ResolveUrlHandler) throws {
       NSLog("Traversing an URL: \(url)");
     
       let next = rels.next()
@@ -365,7 +365,7 @@ public class Traverson {
       return self
     }
 
-    public func withHeaders(headers: Dictionary<String, String>) -> Traversing {
+    public func withHeaders(headers: [String: String]) -> Traversing {
       for (k, v) in headers {
         self.headers[k] = v
       }
@@ -385,7 +385,7 @@ public class Traverson {
       return self
     }
     
-    public func withTemplateParameters(parameters: Dictionary<String, String>) -> Traversing {
+    public func withTemplateParameters(parameters: [String: String]) -> Traversing {
       for (k, v) in parameters {
         self.templateParameters[k] = v
       }
@@ -397,11 +397,11 @@ public class Traverson {
       call(method: TraversonRequestMethod.GET, callback: result)
     }
     
-    public func post(object: Dictionary<String, AnyObject>, result: TraversonResultHandler) {
+    public func post(object: [String: AnyObject], result: TraversonResultHandler) {
       call(method: TraversonRequestMethod.POST, object: object, callback: result)
     }
     
-    public func put(object: Dictionary<String, AnyObject>, result: TraversonResultHandler) {
+    public func put(object: [String: AnyObject], result: TraversonResultHandler) {
       call(method: TraversonRequestMethod.PUT, object: object, callback: result)
     }
     

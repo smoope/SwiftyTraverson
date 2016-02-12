@@ -24,7 +24,7 @@ public class TraversonResult {
 
   public var data: JSON?
   
-  public var dictionary: Dictionary<String, AnyObject>? {
+  public var dictionary: [String: AnyObject]? {
     if let temp = data {
       return temp.dictionaryObject
     } else {
