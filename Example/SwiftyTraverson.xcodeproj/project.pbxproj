@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		034448071C6E105500363454 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034447FE1C6E105500363454 /* AppDelegate.swift */; };
+		034448081C6E105500363454 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 034448001C6E105500363454 /* LaunchScreen.xib */; };
+		034448091C6E105500363454 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 034448021C6E105500363454 /* Main.storyboard */; };
+		0344480A1C6E105500363454 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 034448041C6E105500363454 /* Images.xcassets */; };
+		0344480B1C6E105500363454 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 034448051C6E105500363454 /* Info.plist */; };
+		0344480C1C6E105500363454 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034448061C6E105500363454 /* ViewController.swift */; };
 		03C575EF1C5F62790062E2D6 /* collection.hal.json in Resources */ = {isa = PBXBuildFile; fileRef = 03C575DB1C5F5B7D0062E2D6 /* collection.hal.json */; };
 		03C575F01C5F62790062E2D6 /* item.hal.json in Resources */ = {isa = PBXBuildFile; fileRef = 03C575DC1C5F5B7D0062E2D6 /* item.hal.json */; };
 		03C575F11C5F62790062E2D6 /* root.hal.json in Resources */ = {isa = PBXBuildFile; fileRef = 03C575DD1C5F5B7D0062E2D6 /* root.hal.json */; };
@@ -41,6 +47,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		034447FE1C6E105500363454 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = SwiftyTraverson/AppDelegate.swift; sourceTree = "<group>"; };
+		034448011C6E105500363454 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		034448031C6E105500363454 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
+		034448041C6E105500363454 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SwiftyTraverson/Images.xcassets; sourceTree = "<group>"; };
+		034448051C6E105500363454 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SwiftyTraverson/Info.plist; sourceTree = "<group>"; };
+		034448061C6E105500363454 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = SwiftyTraverson/ViewController.swift; sourceTree = "<group>"; };
 		03C575DB1C5F5B7D0062E2D6 /* collection.hal.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = collection.hal.json; sourceTree = "<group>"; };
 		03C575DC1C5F5B7D0062E2D6 /* item.hal.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = item.hal.json; sourceTree = "<group>"; };
 		03C575DD1C5F5B7D0062E2D6 /* root.hal.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = root.hal.json; sourceTree = "<group>"; };
@@ -95,6 +107,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		034447FD1C6E103D00363454 /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				034447FE1C6E105500363454 /* AppDelegate.swift */,
+				034448021C6E105500363454 /* Main.storyboard */,
+				034448001C6E105500363454 /* LaunchScreen.xib */,
+				034448041C6E105500363454 /* Images.xcassets */,
+				034448051C6E105500363454 /* Info.plist */,
+				034448061C6E105500363454 /* ViewController.swift */,
+			);
+			name = Example;
+			sourceTree = "<group>";
+		};
 		03C575DA1C5F5B6B0062E2D6 /* Responses */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +179,7 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
+				034447FD1C6E103D00363454 /* Example */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACE81AFB9204008FA782 /* Tests */,
 				607FACD11AFB9204008FA782 /* Products */,
@@ -290,6 +316,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0344480B1C6E105500363454 /* Info.plist in Resources */,
+				0344480A1C6E105500363454 /* Images.xcassets in Resources */,
+				034448081C6E105500363454 /* LaunchScreen.xib in Resources */,
+				034448091C6E105500363454 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,6 +436,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0344480C1C6E105500363454 /* ViewController.swift in Sources */,
+				034448071C6E105500363454 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +469,27 @@
 			targetProxy = 607FACE61AFB9204008FA782 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		034448001C6E105500363454 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				034448011C6E105500363454 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			path = SwiftyTraverson/Base.lproj;
+			sourceTree = "<group>";
+		};
+		034448021C6E105500363454 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				034448031C6E105500363454 /* Base */,
+			);
+			name = Main.storyboard;
+			path = SwiftyTraverson/Base.lproj;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		607FACED1AFB9204008FA782 /* Debug */ = {
@@ -526,11 +579,13 @@
 			baseConfigurationReference = 9A48E776BE24866990913F8A /* Pods-SwiftyTraverson_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SwiftyTraverson/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -539,6 +594,7 @@
 			baseConfigurationReference = 3BAEFAB1723D0BC3EC44A627 /* Pods-SwiftyTraverson_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SwiftyTraverson/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
