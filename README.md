@@ -7,10 +7,10 @@ SwiftyTraverson - Swift implementation of a Hypermedia API/HATEOAS client
 
 This framework was inspired by [Traverson javascript library](https://github.com/basti1302/traverson). 
 
-Traverson allows you to follow the relation links within the HATEOAS-based API's response instead of harcoding every single url. 
+Traverson allows you to follow the relation links within the HATEOAS-based API's response instead of hardcoding every single url. 
 In addition, the built-in features allow you:
-- manage header info sent to server
-- handle URI tempalte variables
+- manage additional information sent to server
+- handle URI templates variables
 - use different types of authentication
 
 ## Installation
@@ -146,7 +146,7 @@ traverson
 
 ### Authenticating requests
 
-In case of server requires an authentiction, you can use built-in or custom implementation of `TraversonAuthenticator` protocol.
+In case of server requires an authentication, you can use built-in or custom implementation of `TraversonAuthenticator` protocol.
 
 The example shows usage of HTTP basic authentication:
 
@@ -177,7 +177,7 @@ traverson
   }
 ```
 
-Since SwiftyTraverson supports URI templates ([RFC 6570](http://tools.ietf.org/html/rfc6570)), passing a quety parameters are possible as well:
+Since SwiftyTraverson supports URI templates ([RFC 6570](http://tools.ietf.org/html/rfc6570)), passing a query parameters are possible as well:
 
 ```javascript
 traverson
@@ -205,7 +205,7 @@ Supposing we have the following URI template: `http://www.some.com/{user}/{?page
 
 ### Reusing the same traverson instance
 
-Once defined `Traverson` instance can be used mupltiple times by calling `newRequest` method:
+Once defined `Traverson` instance can be used multiple times by calling `newRequest` method:
 
 ```javascript
 traverson
@@ -250,7 +250,7 @@ traverson
   }
 ```
 
-Once your response fully follows the HAL standard you should do nothing, it's a default behavior. Alternatively, you can force to use it:
+Once your response fully follows the HAL standard you should do nothing, it's a default behavior. Alternatively, you can force use it:
 
 ```javascript
 traverson
