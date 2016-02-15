@@ -40,7 +40,7 @@ class ConfigurationTests: BaseTests {
       .from("http://\(host)")
       .follow()
       .get { result, _ in
-        test = result.data
+        test = result!.data
       
         expectation.fulfill()
       }
@@ -74,7 +74,7 @@ class ConfigurationTests: BaseTests {
       .from("http://\(host)")
       .follow()
       .get { result, _ in
-        test = result.data
+        test = result!.data
       
         expectation.fulfill()
       }
@@ -106,7 +106,9 @@ class ConfigurationTests: BaseTests {
       .from("http://\(host)")
       .follow("jedi")
       .get { result, error in
-        test = result.data
+        if let result = result {
+          test = result.data
+        }
         testError = error
         
         expectation.fulfill()
@@ -134,7 +136,7 @@ class ConfigurationTests: BaseTests {
       .from("http://\(host)")
       .follow("jedi")
       .get { result, _ in
-        test = result.data
+        test = result!.data
       
         expectation.fulfill()
       }
@@ -150,11 +152,19 @@ class ConfigurationTests: BaseTests {
   }
   
   func testSetAuthenticator() {
+    var calls = 0
     stub(isHost(host)) { request in
-      if let _ = request.valueForHTTPHeaderField("Authorization") {
-        return self.fixtures.root()
-      } else {
-        return self.fixtures.responseWithCode(404)
+      calls += 1
+      
+      switch calls {
+      case 1:
+        return self.fixtures.responseWithCode(401)
+      default:
+        if let _ = request.valueForHTTPHeaderField("Authorization") {
+          return self.fixtures.root()
+        } else {
+          return self.fixtures.responseWithCode(404)
+        }
       }
     }
     
@@ -168,7 +178,7 @@ class ConfigurationTests: BaseTests {
       .from("http://\(host)")
       .follow()
       .get { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
     }
@@ -201,7 +211,7 @@ class ConfigurationTests: BaseTests {
       .follow()
       .withHeader("Default-Header", value: "XXX")
       .get { result, _ in
-        test = result.data
+        test = result!.data
       
         expectation.fulfill()
       }
@@ -234,7 +244,7 @@ class ConfigurationTests: BaseTests {
       .follow()
       .withHeaders(["Default-Header": "XXX"])
       .get { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
       }
@@ -266,7 +276,7 @@ class ConfigurationTests: BaseTests {
       .follow("jedi")
       .withTemplateParameter("page", value: "1")
       .get { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
     }
@@ -300,7 +310,7 @@ class ConfigurationTests: BaseTests {
       .follow("jedi")
       .withTemplateParameters(params)
       .get { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
     }
@@ -340,7 +350,7 @@ class ConfigurationTests: BaseTests {
       .from("http://\(host)")
       .follow()
       .get { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
     }
@@ -360,7 +370,7 @@ class ConfigurationTests: BaseTests {
       .newRequest()
       .follow()
       .get { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
     }
@@ -382,7 +392,7 @@ class ConfigurationTests: BaseTests {
       .newRequest()
       .follow()
       .get { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
     }

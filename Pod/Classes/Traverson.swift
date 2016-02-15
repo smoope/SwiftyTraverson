@@ -28,8 +28,6 @@ public class Traverson {
   
   private var authenticator: TraversonAuthenticator?
   
-  private var authentication: String?
-  
   private var current: Traversing?
   
   /**
@@ -52,17 +50,6 @@ public class Traverson {
   }
   
   /**
-    Authenticates requests if needed
-  */
-  private func authenticate() {
-    if let auth = authenticator {
-      if authentication == nil {
-        authentication = auth.authenticate()
-      }
-    }
-  }
-  
-  /**
     Sets the base URL
   
     - Parameter baseUri: URL to start with
@@ -70,9 +57,8 @@ public class Traverson {
     - Returns: Traversing object
   */
   public func from(baseUri: String) -> Traversing {
-    authenticate()
+    current = Traversing(baseUri: baseUri, client: client, authenticator: authenticator)
     
-    current = Traversing(baseUri: baseUri, client: client, authentication: authentication)
     return current!
   }
   
@@ -88,7 +74,7 @@ public class Traverson {
   /**
     Result callback object
   */
-  public typealias TraversonResultHandler = (result: TraversonResult, error: ErrorType?) -> Void
+  public typealias TraversonResultHandler = (result: TraversonResult?, error: ErrorType?) -> Void
   
   /**
     Traverson builder
@@ -214,17 +200,17 @@ public class Traverson {
     
     private var linkResolver: TraversonLinkResolver = TraversonJsonHalLinkResolver()
     
+    private var authenticator: TraversonAuthenticator?
+    
     private typealias ResolveUrlHandler = (url: String?, error: ErrorType?) -> Void
     
-    private init(baseUri: String, client: Alamofire.Manager, authentication: String?) {
+    private init(baseUri: String, client: Alamofire.Manager, authenticator: TraversonAuthenticator? = nil) {
       self.baseUri = baseUri
       self.client = client
       self.rels = Array()
       self.headers = Dictionary()
       self.templateParameters = Dictionary()
-      if let auth = authentication {
-        self.headers["Authorization"] = auth
-      }
+      self.authenticator = authenticator
     }
     
     //todo Implement object-to-json serialization instead of using Dictionary
@@ -266,15 +252,24 @@ public class Traverson {
             object: object
           )
             .validate()
-            .response { _, _, data, error in
-              if let data = data where data.length > 0 {
-                callback(result: TraversonResult(data: self.prepareResponse(data)), error: nil)
+            .response { _, response, data, error in
+              if let response = response where response.statusCode == 401 {
+                if let authenticator = self.authenticator {
+                  self.headers["Authorization"] = authenticator.authenticate()
+                  self.call(resolvedUrl, method: method, object: object, callback: callback)
+                } else {
+                  callback(result: nil, error: TraversonException.AccessDenied())
+                }
               } else {
-                callback(result: TraversonResult(), error: nil)
+                if let data = data where data.length > 0 {
+                  callback(result: TraversonResult(data: self.prepareResponse(data)), error: nil)
+                } else {
+                  callback(result: nil, error: TraversonException.Unknown())
+                }
               }
             }
         } else {
-          callback(result: TraversonResult(), error: error)
+          callback(result: nil, error: error)
         }
       })
     }
@@ -315,7 +310,7 @@ public class Traverson {
             success(url: nil, error: e)
           } else {
             do {
-              if let json = data.data {
+              if let json = data!.data {
                 let link = try self.linkResolver.findNext(next!, data: json)
                 try self.getAndFindLinkWithRel(
                   URITemplate(template: link).expand(self.templateParameters),
@@ -323,7 +318,7 @@ public class Traverson {
                   success: success
                 )
               } else {
-                throw TraversonException.EmptyResponse()
+                throw TraversonException.Unknown()
               }
             } catch let error {
               success(url: nil, error: error)

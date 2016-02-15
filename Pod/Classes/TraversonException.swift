@@ -25,5 +25,7 @@ public enum TraversonException: ErrorType {
   
   case RelationNotFound(relation: String)
   
-  case EmptyResponse()
+  case AccessDenied()
+  
+  case Unknown()
 }

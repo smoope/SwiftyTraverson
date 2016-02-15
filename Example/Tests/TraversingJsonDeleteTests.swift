@@ -34,7 +34,9 @@ class TraversingJsonDeleteTests: BaseTraversingTests {
       .json()
       .follow()
       .delete { result, _ in
-        test = result.data
+        if let result = result {
+          test = result.data
+        }
         
         expectation.fulfill()
       }
@@ -67,8 +69,10 @@ class TraversingJsonDeleteTests: BaseTraversingTests {
       .json()
       .follow("jedi")
       .delete { result, _ in
-        test = result.data
-      
+        if let result = result {
+          test = result.data
+        }
+        
         expectation.fulfill()
       }
     

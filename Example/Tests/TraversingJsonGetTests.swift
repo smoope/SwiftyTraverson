@@ -34,7 +34,7 @@ class TraversingJsonGetTests: BaseTraversingTests {
       .json()
       .followUri("http://\(host)/some")
       .get { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
       }
@@ -62,7 +62,7 @@ class TraversingJsonGetTests: BaseTraversingTests {
       .json()
       .follow()
       .get { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
       }
@@ -100,7 +100,7 @@ class TraversingJsonGetTests: BaseTraversingTests {
       .json()
       .follow("jedi")
       .get { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
       }
@@ -140,7 +140,7 @@ class TraversingJsonGetTests: BaseTraversingTests {
       .json()
       .follow("jedi", "next")
       .get { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
       }

@@ -33,7 +33,9 @@ class TraversingJsonHalDeleteTests: BaseTraversingTests {
       .from("http://\(host)")
       .follow()
       .delete { result, _ in
-        test = result.data
+        if let result = result {
+          test = result.data
+        }
         
         expectation.fulfill()
       }
@@ -65,7 +67,9 @@ class TraversingJsonHalDeleteTests: BaseTraversingTests {
       .from("http://\(host)")
       .follow("jedi")
       .delete { result, _ in
-        test = result.data
+        if let result = result {
+          test = result.data
+        }
       
         expectation.fulfill()
       }

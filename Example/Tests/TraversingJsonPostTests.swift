@@ -36,7 +36,7 @@ class TraversingJsonPostTests: BaseTraversingTests {
       .json()
       .followUri("http://\(host)/some")
       .post(objectToAdd) { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
       }
@@ -75,7 +75,7 @@ class TraversingJsonPostTests: BaseTraversingTests {
       .json()
       .follow("jedi")
       .post(objectToAdd) { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
       }

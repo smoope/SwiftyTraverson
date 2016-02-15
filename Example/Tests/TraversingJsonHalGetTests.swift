@@ -33,7 +33,7 @@ class TraversingJsonHalGetTests: BaseTraversingTests {
       .from("http://\(host)")
       .followUri("http://\(host)/some")
       .get { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
       }
@@ -60,7 +60,7 @@ class TraversingJsonHalGetTests: BaseTraversingTests {
       .from("http://\(host)")
       .follow()
       .get { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
       }
@@ -97,7 +97,7 @@ class TraversingJsonHalGetTests: BaseTraversingTests {
       .from("http://\(host)")
       .follow("jedi")
       .get { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
       }
@@ -138,7 +138,7 @@ class TraversingJsonHalGetTests: BaseTraversingTests {
       .from("http://\(host)")
       .follow("jedi", "next")
       .get { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
       }

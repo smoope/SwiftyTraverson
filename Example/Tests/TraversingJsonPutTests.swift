@@ -36,7 +36,7 @@ class TraversingJsonPutTests: BaseTraversingTests {
       .json()
       .followUri("http://\(host)/some")
       .put(objectToUpdate) { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
       }
@@ -75,7 +75,7 @@ class TraversingJsonPutTests: BaseTraversingTests {
       .json()
       .follow("jedi")
       .put(objectToUpdate) { result, _ in
-        test = result.data
+        test = result!.data
         
         expectation.fulfill()
       }
