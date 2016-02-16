@@ -32,10 +32,10 @@ public class TraversonBasicAuthenticator: TraversonAuthenticator {
     self.password = password
   }
   
-  public func authenticate() -> String {
+  public func authenticate(result: TraversonAuthenticatorResult) {
     let credentials = "\(username):\(password)".dataUsingEncoding(NSUTF8StringEncoding)!
     let base64Credentials = credentials.base64EncodedStringWithOptions([])
     
-    return "Basic \(base64Credentials)"
+    result(authorizationHeader: "Basic \(base64Credentials)")
   }
 }

@@ -255,8 +255,10 @@ public class Traverson {
               if let response = response where response.statusCode == 401 {
                 if let authenticator = self.authenticator {
                   if retries < authenticator.retries {
-                    self.headers["Authorization"] = authenticator.authenticate()
-                    self.call(resolvedUrl, method: method, object: object, retries: retries + 1, callback: callback)
+                    authenticator.authenticate { authenticatorResult in
+                      self.headers["Authorization"] = authenticatorResult
+                      self.call(resolvedUrl, method: method, object: object, retries: retries + 1, callback: callback)
+                    }
                   } else {
                     callback(result: nil, error: TraversonException.AccessDenied())
                   }
