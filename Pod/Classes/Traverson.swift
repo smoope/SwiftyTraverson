@@ -256,20 +256,24 @@ public class Traverson {
                 if let authenticator = self.authenticator {
                   if retries < authenticator.retries {
                     authenticator.authenticate { authenticatorResult in
-                      self.headers["Authorization"] = authenticatorResult
-                      self.call(resolvedUrl, method: method, object: object, retries: retries + 1, callback: callback)
+                      if let authorization = authenticatorResult {
+                        self.headers["Authorization"] = authorization
+                        self.call(resolvedUrl, method: method, object: object, retries: retries + 1, callback: callback)
+                      } else {
+                        callback(result: nil, error: TraversonError.AuthenticatorError())
+                      }
                     }
                   } else {
-                    callback(result: nil, error: TraversonException.AccessDenied())
+                    callback(result: nil, error: TraversonError.AccessDenied())
                   }
                 } else {
-                  callback(result: nil, error: TraversonException.AccessDenied())
+                  callback(result: nil, error: TraversonError.AccessDenied())
                 }
               } else {
                 if let data = data where data.length > 0 {
                   callback(result: TraversonResult(data: self.prepareResponse(data)), error: nil)
                 } else {
-                  callback(result: nil, error: TraversonException.Unknown())
+                  callback(result: nil, error: TraversonError.Unknown())
                 }
               }
             }
@@ -323,7 +327,7 @@ public class Traverson {
                   success: success
                 )
               } else {
-                throw TraversonException.Unknown()
+                throw TraversonError.Unknown()
               }
             } catch let error {
               success(url: nil, error: error)

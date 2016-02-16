@@ -229,8 +229,8 @@ class ConfigurationTests: BaseTests {
     
     XCTAssertNil(test, "response should not exists")
     XCTAssertNotNil(testError, "response should contain error")
-    switch testError as! TraversonException {
-    case TraversonException.AccessDenied():
+    switch testError as! TraversonError {
+    case TraversonError.AccessDenied():
       XCTAssert(true)
       break
     default:

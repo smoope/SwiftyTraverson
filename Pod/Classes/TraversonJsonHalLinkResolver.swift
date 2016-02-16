@@ -25,7 +25,7 @@ public class TraversonJsonHalLinkResolver: TraversonLinkResolver {
   public init() { }
   
   public func findNext(rel: String, data: JSON) throws -> String {
-    guard let next = data["_links"][rel]["href"].string else { throw TraversonException.RelationNotFound(relation: rel) }
+    guard let next = data["_links"][rel]["href"].string else { throw TraversonError.RelationNotFound(relation: rel) }
     
     return next
   }

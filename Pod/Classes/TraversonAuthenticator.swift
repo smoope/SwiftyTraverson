@@ -26,4 +26,4 @@ public protocol TraversonAuthenticator {
   func authenticate(result: TraversonAuthenticatorResult)
 }
 
-public typealias TraversonAuthenticatorResult = (authorizationHeader: String) -> Void
+public typealias TraversonAuthenticatorResult = (authorizationHeader: String?) -> Void
