@@ -212,8 +212,7 @@ public class Traverson {
       self.templateParameters = Dictionary()
       self.authenticator = authenticator
     }
-    
-    //todo Implement object-to-json serialization instead of using Dictionary
+
     private func prepareRequest(url: String, method: TraversonRequestMethod, object: [String: AnyObject]? = nil) -> Request {
       switch method {
       case .GET:
@@ -243,7 +242,7 @@ public class Traverson {
       }
     }
   
-    private func call(url: String? = nil, method: TraversonRequestMethod, object: [String: AnyObject]? = nil, callback: TraversonResultHandler) {
+    private func call(url: String? = nil, method: TraversonRequestMethod, object: [String: AnyObject]? = nil, retries: Int = 0, callback: TraversonResultHandler) {
       resolveUrl(url, success: { resolvedUrl, error in
         if let resolvedUrl = resolvedUrl {
           self.prepareRequest(
@@ -255,8 +254,12 @@ public class Traverson {
             .response { _, response, data, error in
               if let response = response where response.statusCode == 401 {
                 if let authenticator = self.authenticator {
-                  self.headers["Authorization"] = authenticator.authenticate()
-                  self.call(resolvedUrl, method: method, object: object, callback: callback)
+                  if retries < authenticator.retries {
+                    self.headers["Authorization"] = authenticator.authenticate()
+                    self.call(resolvedUrl, method: method, object: object, retries: retries + 1, callback: callback)
+                  } else {
+                    callback(result: nil, error: TraversonException.AccessDenied())
+                  }
                 } else {
                   callback(result: nil, error: TraversonException.AccessDenied())
                 }

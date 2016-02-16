@@ -21,5 +21,7 @@ import Foundation
 */
 public protocol TraversonAuthenticator {
   
+  var retries: Int { get }
+  
   func authenticate() -> String
 }

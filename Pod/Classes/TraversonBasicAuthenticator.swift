@@ -25,6 +25,8 @@ public class TraversonBasicAuthenticator: TraversonAuthenticator {
   
   var password: String
   
+  public var retries = 2
+  
   public init(username: String, password: String) {
     self.username = username
     self.password = password
