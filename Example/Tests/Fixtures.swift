@@ -44,6 +44,11 @@ class Fixtures {
     return response("item\(type.rawValue).json", code: code, type: type)
   }
   
+  func oauth() -> OHHTTPStubsResponse {
+    return response("oauth.json", code: 200, type: .json
+)
+  }
+  
   func responseWithCode(code: Int32, type: MediaType = .jsonHal) -> OHHTTPStubsResponse {
     var headers: Dictionary<String, String> = [:]
     headers["Content-Type"] = type == MediaType.jsonHal ? contentTypeJsonHal : contentTypeJson

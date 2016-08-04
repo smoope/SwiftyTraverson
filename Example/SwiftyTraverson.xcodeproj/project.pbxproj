@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03174AF51D531E7C001D069F /* oauth.json in Resources */ = {isa = PBXBuildFile; fileRef = 03174AF41D531E7C001D069F /* oauth.json */; };
 		034448071C6E105500363454 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034447FE1C6E105500363454 /* AppDelegate.swift */; };
 		034448081C6E105500363454 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 034448001C6E105500363454 /* LaunchScreen.xib */; };
 		034448091C6E105500363454 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 034448021C6E105500363454 /* Main.storyboard */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03174AF41D531E7C001D069F /* oauth.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oauth.json; sourceTree = "<group>"; };
 		034447FE1C6E105500363454 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = SwiftyTraverson/AppDelegate.swift; sourceTree = "<group>"; };
 		034448011C6E105500363454 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		034448031C6E105500363454 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				03C575DB1C5F5B7D0062E2D6 /* collection.hal.json */,
 				03C575DC1C5F5B7D0062E2D6 /* item.hal.json */,
 				03C575DD1C5F5B7D0062E2D6 /* root.hal.json */,
+				03174AF41D531E7C001D069F /* oauth.json */,
 			);
 			name = Responses;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				03C575F11C5F62790062E2D6 /* root.hal.json in Resources */,
 				03C575F01C5F62790062E2D6 /* item.hal.json in Resources */,
 				03D8F2031C69D87500EB3425 /* item.json in Resources */,
+				03174AF51D531E7C001D069F /* oauth.json in Resources */,
 				03D8F2041C69D87500EB3425 /* root.json in Resources */,
 				03C575EF1C5F62790062E2D6 /* collection.hal.json in Resources */,
 				03D8F2021C69D87500EB3425 /* collection.json in Resources */,

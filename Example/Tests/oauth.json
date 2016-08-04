@@ -1,0 +1,8 @@
+{
+  "access_token": "eyJhbGciOiJIUzI1NiJ9",
+  "token_type": "bearer",
+  "refresh_token": "eyJhbGciOiJIUzI1NiJ9",
+  "expires_in": "4499",
+  "scope": "read write",
+  "jti": "jti"
+}

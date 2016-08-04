@@ -238,6 +238,40 @@ class ConfigurationTests: BaseTests {
     }
   }
   
+  func testSetAuthenticatorWithPreAuthentication() {
+    stub(isHost(host)) { request in
+      if let _ = request.valueForHTTPHeaderField("Authorization") {
+        return self.fixtures.root()
+      } else {
+        return self.fixtures.responseWithCode(404)
+      }
+    }
+    
+    let traverson = Traverson.Builder()
+      .authenticator(TraversonBasicAuthenticator(username: "username", password: "password"), preAuthenticate: true)
+      .build()
+    let expectation = self.expectationWithDescription("request should succeed")
+    
+    var test: JSON?
+    traverson
+      .from("http://\(host)")
+      .follow()
+      .get { result, _ in
+        test = result!.data
+        
+        expectation.fulfill()
+    }
+    
+    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    
+    if let test = test {
+      XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
+      XCTAssertEqual(test["_links"].dictionaryObject!.count, 2, "response should contain 2 links")
+    } else {
+      XCTAssertNotNil(test, "response should exists")
+    }
+  }
+  
   func testWithHeader() {
     stub(isHost(host)) { request in
       if let _ = request.valueForHTTPHeaderField("Default-Header") {

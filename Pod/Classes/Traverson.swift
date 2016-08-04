@@ -28,6 +28,8 @@ public class Traverson {
   
   private var authenticator: TraversonAuthenticator?
   
+  private var preAuthenticate: Bool
+  
   private var current: Traversing?
   
   /**
@@ -37,16 +39,17 @@ public class Traverson {
       - configuration: Configuration
       - authenticator: Authenticator
    */
-  private init(configuration: NSURLSessionConfiguration, authenticator: TraversonAuthenticator? = nil) {
+  private init(configuration: NSURLSessionConfiguration, authenticator: TraversonAuthenticator? = nil, preAuthenticate: Bool) {
     self.client = Alamofire.Manager(configuration: configuration)
     self.authenticator = authenticator
+    self.preAuthenticate = preAuthenticate
   }
   
   /**
     Constructor with parameters
   */
   public convenience init() {
-    self.init(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    self.init(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), preAuthenticate: false)
   }
   
   /**
@@ -57,7 +60,7 @@ public class Traverson {
     - Returns: Traversing object
   */
   public func from(baseUri: String) -> Traversing {
-    current = Traversing(baseUri: baseUri, client: client, authenticator: authenticator)
+    current = Traversing(baseUri: baseUri, client: client, authenticator: authenticator, preAuthenticate: preAuthenticate)
     
     return current!
   }
@@ -93,12 +96,15 @@ public class Traverson {
     
     private var authenticator: TraversonAuthenticator?
     
+    private var preAuthenticate: Bool
+    
     public init() {
       self.configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
       self.defaultHeaders = self.configuration.HTTPAdditionalHeaders ?? [:]
       self.useCache = true
       self.requestTimeout = self.configuration.timeoutIntervalForRequest
       self.responseTimeout = self.configuration.timeoutIntervalForResource
+      self.preAuthenticate = false
     }
     
     /**
@@ -162,7 +168,18 @@ public class Traverson {
      - Parameter authenticator: Authenticator
      */
     public func authenticator(authenticator: TraversonAuthenticator) -> Builder {
+      return self.authenticator(authenticator, preAuthenticate: false)
+    }
+    
+    /**
+     Sets authenticator object
+     
+     - Parameter authenticator: Authenticator
+     - Parameter preAuthenticate: Pre-authenticate requests
+     */
+    public func authenticator(authenticator: TraversonAuthenticator, preAuthenticate: Bool) -> Builder {
       self.authenticator = authenticator
+      self.preAuthenticate = preAuthenticate
       
       return self
     }
@@ -178,7 +195,7 @@ public class Traverson {
         configuration.requestCachePolicy = .ReloadIgnoringLocalCacheData
       }
       
-      return Traverson(configuration: configuration, authenticator: authenticator)
+      return Traverson(configuration: configuration, authenticator: authenticator, preAuthenticate: preAuthenticate)
     }
   }
   
@@ -202,15 +219,18 @@ public class Traverson {
     
     private var authenticator: TraversonAuthenticator?
     
+    private var preAuthenticate: Bool
+    
     private typealias ResolveUrlHandler = (url: String?, error: ErrorType?) -> Void
     
-    private init(baseUri: String, client: Alamofire.Manager, authenticator: TraversonAuthenticator? = nil) {
+    private init(baseUri: String, client: Alamofire.Manager, authenticator: TraversonAuthenticator? = nil, preAuthenticate: Bool) {
       self.baseUri = baseUri
       self.client = client
       self.rels = Array()
       self.headers = Dictionary()
       self.templateParameters = Dictionary()
       self.authenticator = authenticator
+      self.preAuthenticate = preAuthenticate
     }
 
     private func prepareRequest(url: String, method: TraversonRequestMethod, object: [String: AnyObject]? = nil) -> Request {
@@ -230,18 +250,6 @@ public class Traverson {
       return JSON(data: response);
     }
     
-    private func resolveUrl(url: String? = nil, success: ResolveUrlHandler) {
-      if url == nil {
-        if traverse {
-          traverseToFinalUrl(success)
-        } else {
-          success(url: URITemplate(template: rels.first!).expand(templateParameters), error: nil)
-        }
-      } else {
-        success(url: url!, error: nil)
-      }
-    }
-  
     private func call(url: String? = nil, method: TraversonRequestMethod, object: [String: AnyObject]? = nil, retries: Int = 0, callback: TraversonResultHandler) {
       resolveUrl(url, success: { resolvedUrl, error in
         if let resolvedUrl = resolvedUrl {
@@ -304,6 +312,39 @@ public class Traverson {
         try getAndFindLinkWithRel(baseUri, rels: rels.generate(), success: success)
       } catch let error {
         success(url: nil, error: error)
+      }
+    }
+    
+    private func preAuthenticate(success: ResolveUrlHandler) {
+      if let authenticator = self.authenticator {
+        authenticator.authenticate { authenticatorResult in
+          if let authorization = authenticatorResult {
+            self.headers["Authorization"] = authorization
+            self.traverseUrl(success)
+          }
+        }
+      } else {
+        traverseUrl(success)
+      }
+    }
+    
+    private func resolveUrl(url: String? = nil, success: ResolveUrlHandler) {
+      if url == nil {
+        if (self.preAuthenticate && self.headers["Authorization"] == nil) {
+          preAuthenticate(success)
+        } else {
+          traverseUrl(success)
+        }
+      } else {
+        success(url: url!, error: nil)
+      }
+    }
+    
+    private func traverseUrl(success: ResolveUrlHandler) {
+      if self.traverse {
+        traverseToFinalUrl(success)
+      } else {
+        success(url: URITemplate(template: rels.first!).expand(templateParameters), error: nil)
       }
     }
     
