@@ -315,12 +315,14 @@ public class Traverson {
       }
     }
     
-    private func preAuthenticate(success: ResolveUrlHandler) {
+    private func authenticate(success: ResolveUrlHandler) {
       if let authenticator = self.authenticator {
         authenticator.authenticate { authenticatorResult in
           if let authorization = authenticatorResult {
             self.headers["Authorization"] = authorization
             self.traverseUrl(success)
+          } else {
+            success(url: nil, error: TraversonError.AuthenticatorError())
           }
         }
       } else {
@@ -331,7 +333,7 @@ public class Traverson {
     private func resolveUrl(url: String? = nil, success: ResolveUrlHandler) {
       if url == nil {
         if (self.preAuthenticate && self.headers["Authorization"] == nil) {
-          preAuthenticate(success)
+          authenticate(success)
         } else {
           traverseUrl(success)
         }

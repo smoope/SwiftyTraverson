@@ -272,6 +272,43 @@ class ConfigurationTests: BaseTests {
     }
   }
   
+  func testSetAuthenticatorWithPreAuthenticationExpectAccessDenied() {
+    stub(isHost(host)) { request in
+      return self.fixtures.responseWithCode(401)
+    }
+    
+    let traverson = Traverson.Builder()
+      .authenticator(TraversonBasicAuthenticator(username: "username", password: "password"), preAuthenticate: true)
+      .build()
+    let expectation = self.expectationWithDescription("request should succeed")
+    
+    var test: JSON?
+    var testError: ErrorType?
+    traverson
+      .from("http://\(host)")
+      .follow()
+      .get { result, error in
+        if let result = result {
+          test = result.data
+        }
+        testError = error
+        
+        expectation.fulfill()
+    }
+    
+    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    
+    XCTAssertNil(test, "response should not exists")
+    XCTAssertNotNil(testError, "response should contain error")
+    switch testError as! TraversonError {
+    case TraversonError.AccessDenied():
+      XCTAssert(true)
+      break
+    default:
+      XCTAssert(false)
+    }
+  }
+  
   func testWithHeader() {
     stub(isHost(host)) { request in
       if let _ = request.valueForHTTPHeaderField("Default-Header") {
