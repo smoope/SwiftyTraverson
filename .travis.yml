@@ -12,4 +12,3 @@ before_install:
 
 script:
 - set -o pipefail && xcodebuild test -workspace Example/SwiftyTraverson.xcworkspace -scheme SwiftyTraverson-Tests -destination "platform=iOS Simulator,OS=10.1,name=iPhone 7" | xcpretty
-- pod lib lint
