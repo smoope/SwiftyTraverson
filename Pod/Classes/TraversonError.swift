@@ -19,15 +19,15 @@ import Foundation
 /**
   Available errors
 */
-public enum TraversonError: ErrorType {
+public enum TraversonError: Error {
   
-  case HttpException(code: Int, message: String)
+  case httpException(code: Int, message: String)
   
-  case RelationNotFound(relation: String)
+  case relationNotFound(relation: String)
   
-  case AccessDenied()
+  case accessDenied()
   
-  case AuthenticatorError()
+  case authenticatorError()
   
-  case Unknown()
+  case unknown()
 }

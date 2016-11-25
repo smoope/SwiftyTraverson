@@ -21,14 +21,14 @@ import SwiftyTraverson
 
 class TraversingJsonHalPutTests: BaseTraversingTests {
   
-  let objectToUpdate: Dictionary<String, AnyObject> = ["name": "Darth Vader"]
+  let objectToUpdate: Dictionary<String, AnyObject> = ["name": "Darth Vader" as AnyObject]
   
   func testFollowUrl() {
-    stub(isHost(host)) { _ in
+    stub(condition: isHost(host)) { _ in
       return self.fixtures.item()
     }
     
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -40,7 +40,7 @@ class TraversingJsonHalPutTests: BaseTraversingTests {
         expectation.fulfill()
       }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
@@ -54,7 +54,7 @@ class TraversingJsonHalPutTests: BaseTraversingTests {
   
   func testFollowRelation() {
     var calls = 0
-    stub(isHost(host)) { _ in
+    stub(condition: isHost(host)) { _ in
       calls += 1
       
       switch calls {
@@ -67,7 +67,7 @@ class TraversingJsonHalPutTests: BaseTraversingTests {
       }
     }
     
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -79,7 +79,7 @@ class TraversingJsonHalPutTests: BaseTraversingTests {
         expectation.fulfill()
       }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")

@@ -20,13 +20,13 @@ import SwiftyJSON
 /**
   Result object
 */
-public class TraversonResult {
+open class TraversonResult {
 
-  public var data: JSON?
+  open var data: JSON?
   
-  public var dictionary: [String: AnyObject]? {
+  open var dictionary: [String: AnyObject]? {
     if let temp = data {
-      return temp.dictionaryObject
+      return temp.dictionaryObject as [String : AnyObject]?
     } else {
       return nil
     }

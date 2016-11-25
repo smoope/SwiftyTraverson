@@ -24,23 +24,23 @@ class Fixtures {
     case json = "", jsonHal = ".hal"
   }
   
-  private func response(file: String, code: Int32, type: MediaType) -> OHHTTPStubsResponse {
+  fileprivate func response(_ file: String, code: Int32, type: MediaType) -> OHHTTPStubsResponse {
     return OHHTTPStubsResponse(
-      fileAtPath: OHPathForFile(file, self.dynamicType)!,
+      fileAtPath: OHPathForFile(file, type(of: self))!,
       statusCode: code,
       headers:["Content-Type": type == MediaType.jsonHal ? contentTypeJsonHal : contentTypeJson]
     )
   }
   
-  func root(code: Int32 = 200, type: MediaType = .jsonHal) -> OHHTTPStubsResponse {
+  func root(_ code: Int32 = 200, type: MediaType = .jsonHal) -> OHHTTPStubsResponse {
     return response("root\(type.rawValue).json", code: code, type: type)
   }
   
-  func collection(code: Int32 = 200, type: MediaType = .jsonHal) -> OHHTTPStubsResponse {
+  func collection(_ code: Int32 = 200, type: MediaType = .jsonHal) -> OHHTTPStubsResponse {
     return response("collection\(type.rawValue).json", code: code, type: type)
   }
   
-  func item(code: Int32 = 200, type: MediaType = .jsonHal) -> OHHTTPStubsResponse {
+  func item(_ code: Int32 = 200, type: MediaType = .jsonHal) -> OHHTTPStubsResponse {
     return response("item\(type.rawValue).json", code: code, type: type)
   }
   
@@ -49,13 +49,13 @@ class Fixtures {
 )
   }
   
-  func responseWithCode(code: Int32, type: MediaType = .jsonHal) -> OHHTTPStubsResponse {
+  func responseWithCode(_ code: Int32, type: MediaType = .jsonHal) -> OHHTTPStubsResponse {
     var headers: Dictionary<String, String> = [:]
     headers["Content-Type"] = type == MediaType.jsonHal ? contentTypeJsonHal : contentTypeJson
     if code == 201 {
       headers["Location"] = "http://\(host)/created"
     }
     
-    return OHHTTPStubsResponse(data: "".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: code, headers: headers)
+    return OHHTTPStubsResponse(data: "".data(using: String.Encoding.utf8)!, statusCode: code, headers: headers)
   }
 }

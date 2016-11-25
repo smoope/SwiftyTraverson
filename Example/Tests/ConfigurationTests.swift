@@ -22,8 +22,8 @@ import SwiftyTraverson
 class ConfigurationTests: BaseTests {
 
   func testSetDefaultHeader() {
-    stub(isHost(host)) { request in
-      if let _ = request.valueForHTTPHeaderField("Default-Header") {
+    stub(condition: isHost(host)) { request in
+      if let _ = request.value(forHTTPHeaderField: "Default-Header") {
         return self.fixtures.root()
       } else {
         return self.fixtures.responseWithCode(404)
@@ -33,7 +33,7 @@ class ConfigurationTests: BaseTests {
     let traverson = Traverson.Builder()
       .defaultHeader("Default-Header", value: "XXX")
       .build()
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -45,7 +45,7 @@ class ConfigurationTests: BaseTests {
         expectation.fulfill()
       }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
@@ -56,8 +56,8 @@ class ConfigurationTests: BaseTests {
   }
   
   func testSetDefaultHeaders() {
-    stub(isHost(host)) { request in
-      if let _ = request.valueForHTTPHeaderField("Default-Header") {
+    stub(condition: isHost(host)) { request in
+      if let _ = request.value(forHTTPHeaderField: "Default-Header") {
         return self.fixtures.root()
       } else {
         return self.fixtures.responseWithCode(404)
@@ -67,7 +67,7 @@ class ConfigurationTests: BaseTests {
     let traverson = Traverson.Builder()
       .defaultHeaders(["Default-Header": "XXX"])
       .build()
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -79,7 +79,7 @@ class ConfigurationTests: BaseTests {
         expectation.fulfill()
       }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
@@ -90,7 +90,7 @@ class ConfigurationTests: BaseTests {
   }
   
   func testSetWithExceededTimeout() {
-    stub(isHost(host)) { _ in
+    stub(condition: isHost(host)) { _ in
       return self.fixtures.root().requestTime(2.0, responseTime: 5.0)
     }
     
@@ -98,10 +98,10 @@ class ConfigurationTests: BaseTests {
       .requestTimeout(1.0)
       .responseTimeout(1.0)
       .build()
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
-    var testError: ErrorType?
+    var testError: Error?
     traverson
       .from("http://\(host)")
       .follow("jedi")
@@ -114,14 +114,14 @@ class ConfigurationTests: BaseTests {
         expectation.fulfill()
       }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
 
     XCTAssertNil(test, "response should not exists")
     XCTAssertNotNil(testError, "response should contain error")
   }
   
   func testSetWithTimeout() {
-    stub(isHost(host)) { _ in
+    stub(condition: isHost(host)) { _ in
       return self.fixtures.root().requestTime(2.0, responseTime: 5.0)
     }
     
@@ -129,7 +129,7 @@ class ConfigurationTests: BaseTests {
       .requestTimeout(10.0)
       .responseTimeout(10.0)
       .build()
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -141,7 +141,7 @@ class ConfigurationTests: BaseTests {
         expectation.fulfill()
       }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
@@ -153,14 +153,14 @@ class ConfigurationTests: BaseTests {
   
   func testSetAuthenticator() {
     var calls = 0
-    stub(isHost(host)) { request in
+    stub(condition: isHost(host)) { request in
       calls += 1
       
       switch calls {
       case 1:
         return self.fixtures.responseWithCode(401)
       default:
-        if let _ = request.valueForHTTPHeaderField("Authorization") {
+        if let _ = request.value(forHTTPHeaderField: "Authorization") {
           return self.fixtures.root()
         } else {
           return self.fixtures.responseWithCode(404)
@@ -171,7 +171,7 @@ class ConfigurationTests: BaseTests {
     let traverson = Traverson.Builder()
       .authenticator(TraversonBasicAuthenticator(username: "username", password: "password"))
       .build()
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -183,7 +183,7 @@ class ConfigurationTests: BaseTests {
         expectation.fulfill()
     }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
@@ -195,7 +195,7 @@ class ConfigurationTests: BaseTests {
   
   func testSetAuthenticatorWithRetryExceed() {
     var calls = 0
-    stub(isHost(host)) { request in
+    stub(condition: isHost(host)) { request in
       calls += 1
       
       switch calls {
@@ -209,10 +209,10 @@ class ConfigurationTests: BaseTests {
     let traverson = Traverson.Builder()
       .authenticator(TraversonBasicAuthenticator(username: "username", password: "password"))
       .build()
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
-    var testError: ErrorType?
+    var testError: Error?
     traverson
       .from("http://\(host)")
       .follow()
@@ -225,12 +225,12 @@ class ConfigurationTests: BaseTests {
         expectation.fulfill()
     }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     XCTAssertNil(test, "response should not exists")
     XCTAssertNotNil(testError, "response should contain error")
     switch testError as! TraversonError {
-    case TraversonError.AccessDenied():
+    case TraversonError.accessDenied():
       XCTAssert(true)
       break
     default:
@@ -239,8 +239,8 @@ class ConfigurationTests: BaseTests {
   }
   
   func testSetAuthenticatorWithPreAuthentication() {
-    stub(isHost(host)) { request in
-      if let _ = request.valueForHTTPHeaderField("Authorization") {
+    stub(condition: isHost(host)) { request in
+      if let _ = request.value(forHTTPHeaderField: "Authorization") {
         return self.fixtures.root()
       } else {
         return self.fixtures.responseWithCode(404)
@@ -248,9 +248,9 @@ class ConfigurationTests: BaseTests {
     }
     
     let traverson = Traverson.Builder()
-      .authenticator(TraversonBasicAuthenticator(username: "username", password: "password"), preAuthenticate: true)
+      .authenticator(TraversonBasicAuthenticator(username: "username", password: "password"), preemptive: true)
       .build()
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -262,7 +262,7 @@ class ConfigurationTests: BaseTests {
         expectation.fulfill()
     }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
@@ -273,17 +273,17 @@ class ConfigurationTests: BaseTests {
   }
   
   func testSetAuthenticatorWithPreAuthenticationExpectAccessDenied() {
-    stub(isHost(host)) { request in
+    stub(condition: isHost(host)) { request in
       return self.fixtures.responseWithCode(401)
     }
     
     let traverson = Traverson.Builder()
-      .authenticator(TraversonBasicAuthenticator(username: "username", password: "password"), preAuthenticate: true)
+      .authenticator(TraversonBasicAuthenticator(username: "username", password: "password"), preemptive: true)
       .build()
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
-    var testError: ErrorType?
+    var testError: Error?
     traverson
       .from("http://\(host)")
       .follow()
@@ -296,12 +296,12 @@ class ConfigurationTests: BaseTests {
         expectation.fulfill()
     }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     XCTAssertNil(test, "response should not exists")
     XCTAssertNotNil(testError, "response should contain error")
     switch testError as! TraversonError {
-    case TraversonError.AccessDenied():
+    case TraversonError.accessDenied():
       XCTAssert(true)
       break
     default:
@@ -310,8 +310,8 @@ class ConfigurationTests: BaseTests {
   }
   
   func testWithHeader() {
-    stub(isHost(host)) { request in
-      if let _ = request.valueForHTTPHeaderField("Default-Header") {
+    stub(condition: isHost(host)) { request in
+      if let _ = request.value(forHTTPHeaderField: "Default-Header") {
         return self.fixtures.root()
       } else {
         return self.fixtures.responseWithCode(404)
@@ -319,7 +319,7 @@ class ConfigurationTests: BaseTests {
     }
     
     let traverson = Traverson.Builder().build()
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -332,7 +332,7 @@ class ConfigurationTests: BaseTests {
         expectation.fulfill()
       }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
@@ -343,8 +343,8 @@ class ConfigurationTests: BaseTests {
   }
   
   func testWithHeaders() {
-    stub(isHost(host)) { request in
-      if let _ = request.valueForHTTPHeaderField("Default-Header") {
+    stub(condition: isHost(host)) { request in
+      if let _ = request.value(forHTTPHeaderField: "Default-Header") {
         return self.fixtures.root()
       } else {
         return self.fixtures.responseWithCode(404)
@@ -352,7 +352,7 @@ class ConfigurationTests: BaseTests {
     }
     
     let traverson = Traverson.Builder().build()
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -365,7 +365,7 @@ class ConfigurationTests: BaseTests {
         expectation.fulfill()
       }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
@@ -376,15 +376,15 @@ class ConfigurationTests: BaseTests {
   }
   
   func testWithTemplateParameter() {
-    stub(isHost(host)) { request in
+    stub(condition: isHost(host)) { request in
       return self.fixtures.root()
     }
-    stub(isHost(host) && isPath("/jedi") && containsQueryParams(["page": "1"])) { request in
+    stub(condition: isHost(host) && isPath("/jedi") && containsQueryParams(["page": "1"])) { request in
       return self.fixtures.root()
     }
     
     let traverson = Traverson.Builder().build()
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -397,7 +397,7 @@ class ConfigurationTests: BaseTests {
         expectation.fulfill()
     }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
@@ -410,15 +410,15 @@ class ConfigurationTests: BaseTests {
   func testWithTemplateParameters() {
     let params = ["page": "1", "sort": "color,desc"]
     
-    stub(isHost(host)) { request in
+    stub(condition: isHost(host)) { request in
       return self.fixtures.root()
     }
-    stub(isHost(host) && isPath("/jedi") && containsQueryParams(["page": "1"]) && containsQueryParams(["sort": "color,desc"])) { request in
+    stub(condition: isHost(host) && isPath("/jedi") && containsQueryParams(["page": "1"]) && containsQueryParams(["sort": "color,desc"])) { request in
       return self.fixtures.root()
     }
     
     let traverson = Traverson.Builder().build()
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -431,7 +431,7 @@ class ConfigurationTests: BaseTests {
         expectation.fulfill()
     }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
@@ -443,7 +443,7 @@ class ConfigurationTests: BaseTests {
   
   func testMultipleCalls() {
     var calls = 0
-    stub(isHost(host)) { _ in
+    stub(condition: isHost(host)) { _ in
       calls += 1
       
       switch calls {
@@ -459,7 +459,7 @@ class ConfigurationTests: BaseTests {
     }
     
     let traverson = Traverson()
-    var expectation = self.expectationWithDescription("request should succeed")
+    var expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -471,7 +471,7 @@ class ConfigurationTests: BaseTests {
         expectation.fulfill()
     }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
@@ -480,7 +480,7 @@ class ConfigurationTests: BaseTests {
       XCTAssertNotNil(test, "response should exists")
     }
     
-    expectation = self.expectationWithDescription("request should succeed")
+    expectation = self.expectation(description: "request should succeed")
     
     traverson
       .newRequest()
@@ -491,7 +491,7 @@ class ConfigurationTests: BaseTests {
         expectation.fulfill()
     }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
@@ -502,7 +502,7 @@ class ConfigurationTests: BaseTests {
       XCTAssertNotNil(test, "response should exists")
     }
     
-    expectation = self.expectationWithDescription("request should succeed")
+    expectation = self.expectation(description: "request should succeed")
     
     traverson
       .newRequest()
@@ -513,7 +513,7 @@ class ConfigurationTests: BaseTests {
         expectation.fulfill()
     }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")

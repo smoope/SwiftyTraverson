@@ -20,12 +20,12 @@ import SwiftyJSON
 /**
   JSON media type rsponse link resolver
  */
-public class TraversonJsonLinkResolver: TraversonLinkResolver {
+open class TraversonJsonLinkResolver: TraversonLinkResolver {
   
   public init() { }
   
-  public func findNext(rel: String, data: JSON) throws -> String {
-    guard let next = data[rel].string else { throw TraversonError.RelationNotFound(relation: rel) }
+  open func findNext(_ rel: String, data: JSON) throws -> String {
+    guard let next = data[rel].string else { throw TraversonError.relationNotFound(relation: rel) }
     
     return next
   }
