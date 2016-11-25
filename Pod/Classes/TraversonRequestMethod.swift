@@ -26,5 +26,5 @@ import Foundation
  */
 enum TraversonRequestMethod {
     
-    case GET, POST, PUT, DELETE
+    case get, post, put, delete
 }

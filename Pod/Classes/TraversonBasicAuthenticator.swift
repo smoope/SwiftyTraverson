@@ -19,23 +19,23 @@ import Foundation
 /**
   HTTP basic authentication authenticator
  */
-public class TraversonBasicAuthenticator: TraversonAuthenticator {
+open class TraversonBasicAuthenticator: TraversonAuthenticator {
   
   var username: String
   
   var password: String
   
-  public var retries = 2
+  open var retries = 2
   
   public init(username: String, password: String) {
     self.username = username
     self.password = password
   }
   
-  public func authenticate(result: TraversonAuthenticatorResult) {
-    let credentials = "\(username):\(password)".dataUsingEncoding(NSUTF8StringEncoding)!
-    let base64Credentials = credentials.base64EncodedStringWithOptions([])
+  open func authenticate(_ result: TraversonAuthenticatorResult) {
+    let credentials = "\(username):\(password)".data(using: String.Encoding.utf8)!
+    let base64Credentials = credentials.base64EncodedString(options: [])
     
-    result(authorizationHeader: "Basic \(base64Credentials)")
+    result("Basic \(base64Credentials)")
   }
 }

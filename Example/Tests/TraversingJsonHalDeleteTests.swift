@@ -22,11 +22,11 @@ import SwiftyTraverson
 class TraversingJsonHalDeleteTests: BaseTraversingTests {
   
   func testFollowRoot() {
-    stub(isHost(host)) { _ in
+    stub(condition: isHost(host)) { _ in
       return self.fixtures.responseWithCode(204)
     }
     
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -40,14 +40,14 @@ class TraversingJsonHalDeleteTests: BaseTraversingTests {
         expectation.fulfill()
       }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     XCTAssertNil(test, "response should not exists")
   }
   
   func testFollowRelation() {
     var calls = 0
-    stub(isHost(host)) { _ in
+    stub(condition: isHost(host)) { _ in
       calls += 1
       
       switch calls {
@@ -60,7 +60,7 @@ class TraversingJsonHalDeleteTests: BaseTraversingTests {
       }
     }
     
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -74,7 +74,7 @@ class TraversingJsonHalDeleteTests: BaseTraversingTests {
         expectation.fulfill()
       }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     XCTAssertNil(test, "response should not exists")
   }

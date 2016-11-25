@@ -22,11 +22,11 @@ import SwiftyTraverson
 class TraversingJsonGetTests: BaseTraversingTests {
   
   func testFollowUrl() {
-    stub(isHost(host)) { _ in
+    stub(condition: isHost(host)) { _ in
       return self.fixtures.root(type: Fixtures.MediaType.json)
     }
     
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -39,7 +39,7 @@ class TraversingJsonGetTests: BaseTraversingTests {
         expectation.fulfill()
       }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["self"].string, "response should contain links")
@@ -50,11 +50,11 @@ class TraversingJsonGetTests: BaseTraversingTests {
   }
   
   func testFollowRoot() {
-    stub(isHost(host)) { _ in
+    stub(condition: isHost(host)) { _ in
       return self.fixtures.root(type: Fixtures.MediaType.json)
     }
     
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -67,7 +67,7 @@ class TraversingJsonGetTests: BaseTraversingTests {
         expectation.fulfill()
       }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertNotNil(test["self"].string, "response should contain links")
@@ -79,7 +79,7 @@ class TraversingJsonGetTests: BaseTraversingTests {
   
   func testFollowRelation() {
     var calls = 0
-    stub(isHost(host)) { _ in
+    stub(condition: isHost(host)) { _ in
       calls += 1
       
       switch calls {
@@ -92,7 +92,7 @@ class TraversingJsonGetTests: BaseTraversingTests {
       }
     }
     
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -105,7 +105,7 @@ class TraversingJsonGetTests: BaseTraversingTests {
         expectation.fulfill()
       }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertEqual(test["jedi"].arrayObject?.count, 2, "response should contain pagination details")
@@ -117,7 +117,7 @@ class TraversingJsonGetTests: BaseTraversingTests {
   
   func testFollowInnerRelation() {
     var calls = 0
-    stub(isHost(host)) { _ in
+    stub(condition: isHost(host)) { _ in
       calls += 1
       
       switch calls {
@@ -132,7 +132,7 @@ class TraversingJsonGetTests: BaseTraversingTests {
       }
     }
     
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: JSON?
     traverson
@@ -145,7 +145,7 @@ class TraversingJsonGetTests: BaseTraversingTests {
         expectation.fulfill()
       }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     if let test = test {
       XCTAssertEqual(test["jedi"].arrayObject?.count, 2, "response should contain pagination details")
@@ -157,7 +157,7 @@ class TraversingJsonGetTests: BaseTraversingTests {
   
   func testFollowInnerRelationWithWrongRelation() {
     var calls = 0
-    stub(isHost(host)) { _ in
+    stub(condition: isHost(host)) { _ in
       calls += 1
       
       switch calls {
@@ -172,10 +172,10 @@ class TraversingJsonGetTests: BaseTraversingTests {
       }
     }
     
-    let expectation = self.expectationWithDescription("request should succeed")
+    let expectation = self.expectation(description: "request should succeed")
     
     var test: TraversonResult?
-    var testError: ErrorType?
+    var testError: Error?
     traverson
       .from("http://\(host)")
       .json()
@@ -187,7 +187,7 @@ class TraversingJsonGetTests: BaseTraversingTests {
         expectation.fulfill()
       }
     
-    self.waitForExpectationsWithTimeout(self.timeout, handler: nil)
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
     
     XCTAssertNil(test?.data, "response should not exists")
     XCTAssertNotNil(testError, "response should contain error")

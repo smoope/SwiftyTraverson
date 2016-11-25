@@ -26,7 +26,7 @@ let host: String = "old-republic.com"
 
 class BaseTests: XCTestCase {
   
-  let timeout: NSTimeInterval = 30.0
+  let timeout: TimeInterval = 30.0
   
   let fixtures: Fixtures = Fixtures()
   

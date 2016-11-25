@@ -20,12 +20,12 @@ import SwiftyJSON
 /**
   HATEOAS media type response link resolver
  */
-public class TraversonJsonHalLinkResolver: TraversonLinkResolver {
+open class TraversonJsonHalLinkResolver: TraversonLinkResolver {
   
   public init() { }
   
-  public func findNext(rel: String, data: JSON) throws -> String {
-    guard let next = data["_links"][rel]["href"].string else { throw TraversonError.RelationNotFound(relation: rel) }
+  open func findNext(_ rel: String, data: JSON) throws -> String {
+    guard let next = data["_links"][rel]["href"].string else { throw TraversonError.relationNotFound(relation: rel) }
     
     return next
   }
