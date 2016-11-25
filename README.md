@@ -163,6 +163,14 @@ traverson
   }
 ```
 
+In some cases requests should be authenticated by default:
+
+```javascript
+let traverson = Traverson.Builder()
+  .authenticator(TraversonBasicAuthenticator(username: "username", password: "password"), preemptive: true)
+  .build()
+```
+
 ### Sending additional information
 
 It is possible to send an additional request-scoped information such as HTTP headers:
