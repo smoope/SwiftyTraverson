@@ -23,7 +23,7 @@ public protocol TraversonAuthenticator {
   
   var retries: Int { get }
   
-  func authenticate(_ result: TraversonAuthenticatorResult)
+  func authenticate(_ result: @escaping TraversonAuthenticatorResult)
 }
 
 public typealias TraversonAuthenticatorResult = (_ authorizationHeader: String?) -> Void

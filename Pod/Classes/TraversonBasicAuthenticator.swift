@@ -32,7 +32,7 @@ open class TraversonBasicAuthenticator: TraversonAuthenticator {
     self.password = password
   }
   
-  open func authenticate(_ result: TraversonAuthenticatorResult) {
+  open func authenticate(_ result: @escaping TraversonAuthenticatorResult) {
     let credentials = "\(username):\(password)".data(using: String.Encoding.utf8)!
     let base64Credentials = credentials.base64EncodedString(options: [])
     
