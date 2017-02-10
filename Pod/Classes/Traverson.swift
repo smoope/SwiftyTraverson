@@ -112,6 +112,7 @@ open class Traverson {
      
       - Parameters defaultHeaders: Collection of default headers to use
      */
+    @discardableResult
     open func defaultHeaders(_ defaultHeaders: [String: String]) -> Builder {
       self.defaultHeaders = defaultHeaders
       
@@ -125,6 +126,7 @@ open class Traverson {
       - name: Header's name
       - value: Header's value
      */
+    @discardableResult
     open func defaultHeader(_ name: String, value: String) -> Builder {
       defaultHeaders[name] = value
       
@@ -134,6 +136,7 @@ open class Traverson {
     /**
       Disables cache
      */
+    @discardableResult
     open func disableCache() -> Builder {
       useCache  = false
       
@@ -145,6 +148,7 @@ open class Traverson {
      
       - Parameter timout: Request timeout
     */
+    @discardableResult
     open func requestTimeout(_ timeout: TimeInterval) -> Builder {
       requestTimeout = timeout
       
@@ -156,6 +160,7 @@ open class Traverson {
     
       - Parameter timout: Response timeout
     */
+    @discardableResult
     open func responseTimeout(_ timeout: TimeInterval) -> Builder {
       responseTimeout = timeout
       
@@ -167,6 +172,7 @@ open class Traverson {
      
      - Parameter authenticator: Authenticator
      */
+    @discardableResult
     open func authenticator(_ authenticator: TraversonAuthenticator) -> Builder {
       return self.authenticator(authenticator, preemptive: false)
     }
@@ -177,6 +183,7 @@ open class Traverson {
      - Parameter authenticator: Authenticator
      - Parameter preemptive: Pre-authenticate requests
      */
+    @discardableResult
     open func authenticator(_ authenticator: TraversonAuthenticator, preemptive: Bool) -> Builder {
       self.authenticator = authenticator
       self.preemptive = preemptive
@@ -297,6 +304,7 @@ open class Traverson {
     
       - Returns: Traversing object
     */
+    @discardableResult
     open func follow(_ rels: String...) -> Traversing {
       for rel in rels {
         self.rels.append(rel)
@@ -387,6 +395,7 @@ open class Traverson {
     
       - Returns: Traversing object
     */
+    @discardableResult
     open func followUri(_ link: String) -> Traversing {
       self.rels.append(link)
       self.traverse = false
@@ -394,24 +403,28 @@ open class Traverson {
       return self
     }
     
+    @discardableResult
     open func follow201Location(_ follow: Bool) -> Traversing {
       self.follow201Location = follow
       
       return self
     }
     
+    @discardableResult
     open func json() -> Traversing {
       self.linkResolver = TraversonJsonLinkResolver()
       
       return self
     }
     
+    @discardableResult
     open func jsonHal() -> Traversing {
       self.linkResolver = TraversonJsonHalLinkResolver()
       
       return self
     }
-
+    
+    @discardableResult
     open func withHeaders(_ headers: [String: String]) -> Traversing {
       for (k, v) in headers {
         self.headers[k] = v
@@ -420,18 +433,21 @@ open class Traverson {
       return self
     }
     
+    @discardableResult
     open func withHeader(_ name: String, value: String) -> Traversing {
       self.headers[name] = value
     
       return self
     }
     
+    @discardableResult
     open func withTemplateParameter(_ name: String, value: String) -> Traversing {
       self.templateParameters[name] = value
     
       return self
     }
     
+    @discardableResult
     open func withTemplateParameters(_ parameters: [String: String]) -> Traversing {
       for (k, v) in parameters {
         self.templateParameters[k] = v
