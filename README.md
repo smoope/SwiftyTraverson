@@ -5,9 +5,9 @@ SwiftyTraverson - Swift implementation of a Hypermedia API/HATEOAS client
 
 # Introduction
 
-This framework was inspired by [Traverson javascript library](https://github.com/basti1302/traverson). 
+This framework was inspired by [Traverson javascript library](https://github.com/basti1302/traverson).
 
-Traverson allows you to follow the relation links within the HATEOAS-based API's response instead of hardcoding every single url. 
+Traverson allows you to follow the relation links within the HATEOAS-based API's response instead of hardcoding every single url.
 In addition, the built-in features allow you:
 - manage additional information sent to server
 - handle URI templates variables
@@ -45,7 +45,7 @@ let traverson = Traverson.Builder()
 
 List of available properties:
 
-| Property | Description | 
+| Property | Description |
 |---|---|
 | `requestTimeout` | Sets request timeout interval (in seconds) per each request. [More details](https://developer.apple.com/library/prerelease/ios/documentation/Foundation/Reference/NSURLSessionConfiguration_class/index.html#//apple_ref/occ/instp/NSURLSessionConfiguration/timeoutIntervalForRequest). |
 | `responseTimeout` | Sets response timeout interval (in seconds) per each request. [More details](https://developer.apple.com/library/prerelease/ios/documentation/Foundation/Reference/NSURLSessionConfiguration_class/index.html#//apple_ref/occ/instp/NSURLSessionConfiguration/timeoutIntervalForResource). |
@@ -53,6 +53,7 @@ List of available properties:
 | `defaultHeader` | Sets single default header which will be sent to the server per each request. |
 | `defaultHeaders` | Sets a collection of default headers which will be sent to the server per each request. |
 | `authenticator` | Authenticates every request accordingly to server's security policy. [More details](#authenticating-requests). |
+| `dispatchQueue`| Sets the queue in which the result handler get called|
 
 ### Making requests
 
@@ -107,7 +108,7 @@ traverson
   }
 ```
 
-As you might noticed, `post` and `put` methods expect an additional parameter represents the object should be created or updated, while 
+As you might noticed, `post` and `put` methods expect an additional parameter represents the object should be created or updated, while
 `get` and `delete` has no such parameter.
 
 ### Reading response
@@ -154,7 +155,7 @@ The example shows usage of HTTP basic authentication:
 let traverson = Traverson.Builder()
   .authenticator(TraversonBasicAuthenticator(username: "username", password: "password"))
   .build()
-      
+
 traverson
   .from("http://www.some.com")
   .follow("users", "next")
@@ -244,7 +245,7 @@ traverson
 
 ### Supporting different media types
 
-SwiftyTraverson expects that your server-side implementation follows [HATEOAS](https://en.wikipedia.org/wiki/HATEOAS) principles, no matter which representation technology is used to render the response. Out-of-box it works with both JSON and [JSON HAL](https://tools.ietf.org/html/draft-kelly-json-hal-07) standards. 
+SwiftyTraverson expects that your server-side implementation follows [HATEOAS](https://en.wikipedia.org/wiki/HATEOAS) principles, no matter which representation technology is used to render the response. Out-of-box it works with both JSON and [JSON HAL](https://tools.ietf.org/html/draft-kelly-json-hal-07) standards.
 
 In case of using simple JSON representation, you should specify it during the call:
 

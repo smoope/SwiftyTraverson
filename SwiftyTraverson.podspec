@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "SwiftyTraverson"
-  s.version          = "1.0.0"
+  s.version          = "1.1.0"
   s.summary          = "Swift implementation of a Hypermedia API/HATEOAS client."
 
   s.description      = <<-DESC

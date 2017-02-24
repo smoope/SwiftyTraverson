@@ -30,6 +30,8 @@ open class Traverson {
   
   fileprivate var preemptive: Bool
   
+  fileprivate var dispatchQueue: DispatchQueue?
+  
   fileprivate var current: Traversing?
   
   /**
@@ -39,10 +41,11 @@ open class Traverson {
       - configuration: Configuration
       - authenticator: Authenticator
    */
-  fileprivate init(configuration: URLSessionConfiguration, authenticator: TraversonAuthenticator? = nil, preemptive: Bool) {
+  fileprivate init(configuration: URLSessionConfiguration, authenticator: TraversonAuthenticator? = nil, preemptive: Bool, dispatchQueue: DispatchQueue? = nil) {
     self.client = Alamofire.SessionManager(configuration: configuration)
     self.authenticator = authenticator
     self.preemptive = preemptive
+    self.dispatchQueue = dispatchQueue
   }
   
   /**
@@ -60,7 +63,7 @@ open class Traverson {
     - Returns: Traversing object
   */
   open func from(_ baseUri: String) -> Traversing {
-    current = Traversing(baseUri: baseUri, client: client, authenticator: authenticator, preemptive: preemptive)
+    current = Traversing(baseUri: baseUri, client: client, authenticator: authenticator, preemptive: preemptive, dispatchQueue: dispatchQueue)
     
     return current!
   }
@@ -95,6 +98,8 @@ open class Traverson {
     fileprivate var responseTimeout: TimeInterval
     
     fileprivate var authenticator: TraversonAuthenticator?
+    
+    fileprivate var dispatchQueue: DispatchQueue? = nil
     
     fileprivate var preemptive: Bool
     
@@ -192,6 +197,18 @@ open class Traverson {
     }
     
     /**
+     Sets queue
+     
+     - Parameter queue: Queue on which the result handler get called
+     */
+    @discardableResult
+    open func dispatchQueue(_ queue: DispatchQueue) -> Builder {
+        self.dispatchQueue = queue
+        
+        return self
+    }
+    
+    /**
       Builds the Traverson object with custom configuration
     */
     open func build() -> Traverson {
@@ -202,7 +219,7 @@ open class Traverson {
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
       }
       
-      return Traverson(configuration: configuration, authenticator: authenticator, preemptive: preemptive)
+      return Traverson(configuration: configuration, authenticator: authenticator, preemptive: preemptive, dispatchQueue: dispatchQueue)
     }
   }
   
@@ -217,7 +234,9 @@ open class Traverson {
     fileprivate var headers: [String: String]
     
     fileprivate var templateParameters: [String: String]
-  
+    
+    fileprivate var dispatchQueue: DispatchQueue? = nil
+    
     fileprivate var follow201Location:Bool = false
     
     fileprivate var traverse:Bool = true
@@ -230,7 +249,7 @@ open class Traverson {
     
     fileprivate typealias ResolveUrlHandler = (_ url: String?, _ error: Error?) -> Void
     
-    fileprivate init(baseUri: String, client: Alamofire.SessionManager, authenticator: TraversonAuthenticator? = nil, preemptive: Bool) {
+    fileprivate init(baseUri: String, client: Alamofire.SessionManager, authenticator: TraversonAuthenticator? = nil, preemptive: Bool, dispatchQueue: DispatchQueue? = nil) {
       self.baseUri = baseUri
       self.client = client
       self.rels = Array()
@@ -238,6 +257,7 @@ open class Traverson {
       self.templateParameters = Dictionary()
       self.authenticator = authenticator
       self.preemptive = preemptive
+      self.dispatchQueue = dispatchQueue
     }
 
     fileprivate func prepareRequest(_ url: String, method: TraversonRequestMethod, object: [String: AnyObject]? = nil) -> DataRequest {
@@ -265,7 +285,7 @@ open class Traverson {
             method: method,
             object: object
           )
-            .response { result in//_, response, data, error in
+            .response(queue: self.dispatchQueue) { result in
               if let response = result.response, response.statusCode == 401 {
                 if let authenticator = self.authenticator {
                   if retries < authenticator.retries {
@@ -284,7 +304,13 @@ open class Traverson {
                   callback(nil, TraversonError.accessDenied())
                 }
               } else {
-                if let data = result.data, data.count > 0 {
+                if result.response?.statusCode == 201, self.follow201Location {
+                    if let location = result.response?.allHeaderFields["Location"] as? String {
+                        self.call(location, method: .get, callback: callback)
+                    } else {
+                        callback(nil, TraversonError.httpException(code: 201, message: "No Location Header found"))
+                    }
+                } else if let data = result.data, data.count > 0 {
                   callback(TraversonResult(data: self.prepareResponse(data)), nil)
                 } else {
                   callback(nil, TraversonError.unknown())
@@ -359,7 +385,6 @@ open class Traverson {
     
     private func getAndFindLinkWithRel(_ url: String, rels: IndexingIterator<[String]>, success: @escaping ResolveUrlHandler) throws {
       var rels = rels
-      NSLog("Traversing an URL: \(url)");
     
       let next = rels.next()
       if (next == nil) {
