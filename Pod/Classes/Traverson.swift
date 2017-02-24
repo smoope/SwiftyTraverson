@@ -30,6 +30,8 @@ open class Traverson {
   
   fileprivate var preemptive: Bool
   
+  fileprivate var dispatchQueue: DispatchQueue?
+  
   fileprivate var current: Traversing?
   
   /**
@@ -39,10 +41,11 @@ open class Traverson {
       - configuration: Configuration
       - authenticator: Authenticator
    */
-  fileprivate init(configuration: URLSessionConfiguration, authenticator: TraversonAuthenticator? = nil, preemptive: Bool) {
+  fileprivate init(configuration: URLSessionConfiguration, authenticator: TraversonAuthenticator? = nil, preemptive: Bool, dispatchQueue: DispatchQueue? = nil) {
     self.client = Alamofire.SessionManager(configuration: configuration)
     self.authenticator = authenticator
     self.preemptive = preemptive
+    self.dispatchQueue = dispatchQueue
   }
   
   /**
@@ -60,7 +63,7 @@ open class Traverson {
     - Returns: Traversing object
   */
   open func from(_ baseUri: String) -> Traversing {
-    current = Traversing(baseUri: baseUri, client: client, authenticator: authenticator, preemptive: preemptive)
+    current = Traversing(baseUri: baseUri, client: client, authenticator: authenticator, preemptive: preemptive, dispatchQueue: dispatchQueue)
     
     return current!
   }
@@ -95,6 +98,8 @@ open class Traverson {
     fileprivate var responseTimeout: TimeInterval
     
     fileprivate var authenticator: TraversonAuthenticator?
+    
+    fileprivate var dispatchQueue: DispatchQueue? = nil
     
     fileprivate var preemptive: Bool
     
@@ -192,6 +197,18 @@ open class Traverson {
     }
     
     /**
+     Sets queue
+     
+     - Parameter queue: Queue on which the result handler get called
+     */
+    @discardableResult
+    open func dispatchQueue(_ queue: DispatchQueue) -> Builder {
+        self.dispatchQueue = queue
+        
+        return self
+    }
+    
+    /**
       Builds the Traverson object with custom configuration
     */
     open func build() -> Traverson {
@@ -202,7 +219,7 @@ open class Traverson {
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
       }
       
-      return Traverson(configuration: configuration, authenticator: authenticator, preemptive: preemptive)
+      return Traverson(configuration: configuration, authenticator: authenticator, preemptive: preemptive, dispatchQueue: dispatchQueue)
     }
   }
   
@@ -232,7 +249,7 @@ open class Traverson {
     
     fileprivate typealias ResolveUrlHandler = (_ url: String?, _ error: Error?) -> Void
     
-    fileprivate init(baseUri: String, client: Alamofire.SessionManager, authenticator: TraversonAuthenticator? = nil, preemptive: Bool) {
+    fileprivate init(baseUri: String, client: Alamofire.SessionManager, authenticator: TraversonAuthenticator? = nil, preemptive: Bool, dispatchQueue: DispatchQueue? = nil) {
       self.baseUri = baseUri
       self.client = client
       self.rels = Array()
@@ -240,6 +257,7 @@ open class Traverson {
       self.templateParameters = Dictionary()
       self.authenticator = authenticator
       self.preemptive = preemptive
+      self.dispatchQueue = dispatchQueue
     }
 
     fileprivate func prepareRequest(_ url: String, method: TraversonRequestMethod, object: [String: AnyObject]? = nil) -> DataRequest {
@@ -415,13 +433,6 @@ open class Traverson {
       self.follow201Location = follow
       
       return self
-    }
-    
-    @discardableResult
-    open func dispatchQueue(_ queue: DispatchQueue) -> Traversing {
-        self.dispatchQueue = queue
-        
-        return self
     }
     
     @discardableResult

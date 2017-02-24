@@ -380,15 +380,18 @@ class ConfigurationTests: BaseTests {
       return self.fixtures.root()
     }
     
-    let traverson = Traverson.Builder().build()
-    let expectation = self.expectation(description: "request should succeed")
-    
     let queue = DispatchQueue(label: "SwiftyTraverson")
+    
+    let traverson = Traverson
+        .Builder()
+        .dispatchQueue(queue)
+        .build()
+    
+    let expectation = self.expectation(description: "request should succeed")
     
     traverson
       .from("http://\(host)")
       .follow()
-      .dispatchQueue(queue)
       .get { result, _ in
         
         dispatchPrecondition(condition: .onQueue(queue))
