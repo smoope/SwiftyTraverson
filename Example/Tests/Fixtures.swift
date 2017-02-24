@@ -45,8 +45,7 @@ class Fixtures {
   }
   
   func oauth() -> OHHTTPStubsResponse {
-    return response("oauth.json", code: 200, type: .json
-)
+    return response("oauth.json", code: 200, type: .json)
   }
   
   func responseWithCode(_ code: Int32, type: MediaType = .jsonHal) -> OHHTTPStubsResponse {

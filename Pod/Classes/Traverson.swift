@@ -367,7 +367,6 @@ open class Traverson {
     
     private func getAndFindLinkWithRel(_ url: String, rels: IndexingIterator<[String]>, success: @escaping ResolveUrlHandler) throws {
       var rels = rels
-      NSLog("Traversing an URL: \(url)");
     
       let next = rels.next()
       if (next == nil) {
