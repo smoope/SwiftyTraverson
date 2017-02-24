@@ -217,7 +217,9 @@ open class Traverson {
     fileprivate var headers: [String: String]
     
     fileprivate var templateParameters: [String: String]
-  
+    
+    fileprivate var dispatchQueue: DispatchQueue? = nil
+    
     fileprivate var follow201Location:Bool = false
     
     fileprivate var traverse:Bool = true
@@ -265,7 +267,7 @@ open class Traverson {
             method: method,
             object: object
           )
-            .response { result in//_, response, data, error in
+            .response(queue: self.dispatchQueue) { result in
               if let response = result.response, response.statusCode == 401 {
                 if let authenticator = self.authenticator {
                   if retries < authenticator.retries {
@@ -408,6 +410,13 @@ open class Traverson {
       self.follow201Location = follow
       
       return self
+    }
+    
+    @discardableResult
+    open func dispatchQueue(_ queue: DispatchQueue) -> Traversing {
+        self.dispatchQueue = queue
+        
+        return self
     }
     
     @discardableResult

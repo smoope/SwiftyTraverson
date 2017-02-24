@@ -375,6 +375,31 @@ class ConfigurationTests: BaseTests {
     }
   }
   
+  func testWithDispatchQueue() {
+    stub(condition: isHost(host)) { _ in
+      return self.fixtures.root()
+    }
+    
+    let traverson = Traverson.Builder().build()
+    let expectation = self.expectation(description: "request should succeed")
+    
+    let queue = DispatchQueue(label: "SwiftyTraverson")
+    
+    traverson
+      .from("http://\(host)")
+      .follow()
+      .dispatchQueue(queue)
+      .get { result, _ in
+        
+        dispatchPrecondition(condition: .onQueue(queue))
+        
+        expectation.fulfill()
+    }
+    waitForExpectations(timeout: self.timeout, handler: nil)
+    
+    XCTAssertTrue(true, "precondition should be fullfilled")
+  }
+  
   func testWithTemplateParameter() {
     stub(condition: isHost(host)) { request in
       return self.fixtures.root()
