@@ -286,7 +286,13 @@ open class Traverson {
                   callback(nil, TraversonError.accessDenied())
                 }
               } else {
-                if let data = result.data, data.count > 0 {
+                if result.response?.statusCode == 201, self.follow201Location {
+                    if let location = result.response?.allHeaderFields["Location"] as? String {
+                        self.call(location, method: .get, callback: callback)
+                    } else {
+                        callback(nil, TraversonError.httpException(code: 201, message: "No Location Header found"))
+                    }
+                } else if let data = result.data, data.count > 0 {
                   callback(TraversonResult(data: self.prepareResponse(data)), nil)
                 } else {
                   callback(nil, TraversonError.unknown())

@@ -90,4 +90,69 @@ class TraversingJsonHalPostTests: BaseTraversingTests {
       XCTAssertNotNil(test, "response should exists")
     }
   }
+  
+  func testFollow201Location() {
+    stub(condition: isHost(host) && isPath("/some")) { _ in
+      return self.fixtures.responseWithCode(201)
+    }
+    stub(condition: isHost(host) && isPath("/created")) { _ in
+      return self.fixtures.item()
+    }
+    let expectation = self.expectation(description: "request should succeed")
+    
+    var test: JSON?
+    traverson
+      .from("http://\(host)")
+      .followUri("http://\(host)/some")
+      .follow201Location(true)
+      .post(objectToAdd) { result, _ in
+        test = result!.data
+        
+        expectation.fulfill()
+    }
+    
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
+    
+    if let test = test {
+      XCTAssertNotNil(test["_links"].dictionaryObject, "response should contain links")
+      XCTAssertEqual(test["_links"].dictionaryObject!.count, 2, "response should contain 2 links")
+      XCTAssertNotNil(test["id"].int, "response should contain payload")
+      XCTAssertNotNil(test["name"].string, "response should contain payload")
+    } else {
+      XCTAssertNotNil(test, "response should exists")
+    }
+  }
+  
+  func testFollow201LocationFail() {
+    stub(condition: isHost(host) && isPath("/some")) { _ in
+      let createdStub = self.fixtures.responseWithCode(201)
+      createdStub.httpHeaders = [:]
+      return createdStub
+    }
+    let expectation = self.expectation(description: "request should succeed")
+    
+    var test: TraversonError?
+    traverson
+      .from("http://\(host)")
+      .followUri("http://\(host)/some")
+      .follow201Location(true)
+      .post(objectToAdd) { _, error in
+        test = error as? TraversonError
+        
+        expectation.fulfill()
+    }
+    
+    self.waitForExpectations(timeout: self.timeout, handler: nil)
+    
+    if let test = test {
+      switch test {
+      case .httpException(let code, _):
+        XCTAssertTrue(code == 201, "http statuscode should be 201 instead of \(code)")
+      default:
+        XCTAssertTrue(false, "caught in different exception")
+      }
+    } else {
+      XCTAssertNotNil(test, "error should exist")
+    }
+  }
 }
