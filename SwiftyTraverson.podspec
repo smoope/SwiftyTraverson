@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "SwiftyTraverson"
-  s.version          = "1.1.0"
+  s.version          = "1.1.1"
   s.summary          = "Swift implementation of a Hypermedia API/HATEOAS client."
 
   s.description      = <<-DESC
@@ -30,6 +30,6 @@ In addition, the built-in features allow you:
   s.source_files = 'Pod/Classes/**/*'
 
   s.dependency 'Alamofire', '~> 4.0'
-  s.dependency 'SwiftyJSON'
-  s.dependency 'URITemplate'
+  s.dependency 'SwiftyJSON', '~> 3.0'
+  s.dependency 'URITemplate', '~> 2.0'
 end
